@@ -303,24 +303,6 @@
             font-size: 0.95rem;
         }
 
-        .warning-message {
-            background-color: rgba(245, 158, 11, 0.12);
-            border-left: 4px solid #f59e0b;
-            padding: 12px;
-            margin-top: 15px;
-            border-radius: 0 6px 6px 0;
-            display: none;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .warning-message p {
-            color: #fbbf24;
-            font-weight: 500;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
         .quote-card {
             background: #1e293b;
             border-radius: 10px;
@@ -367,6 +349,83 @@
             gap: 8px;
             margin-top: 10px;
         }
+
+        /* Grade Badge Styles */
+        .grade-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 10px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .grade-a-plus {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #1e293b;
+            border: 2px solid #fbbf24;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+        }
+
+        .grade-a {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: 2px solid #10b981;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .grade-b {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: 2px solid #3b82f6;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .grade-c {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+            border: 2px solid #f97316;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
+        }
+
+        .grade-f {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: 2px solid #ef4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .score-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .score-item span {
+            display: block;
+            font-weight: 700;
+            color: #f1f5f9;
+            font-size: 1.1rem;
+        }
+
+        .rejection-list {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #fca5a5;
+            display: inline-block;
+        }
     </style>
 </head>
 
@@ -374,7 +433,7 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-clipboard-check"></i> Checklist</h1>
-            <p>HTF Bias • Confirmation • Validation</p>
+            <p>HTF Bias • Confirmation • Grade System</p>
         </header>
 
         <!-- Quote Section -->
@@ -509,31 +568,26 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="warning-message" id="no-entry-warning">
-                        <p><i class="fas fa-exclamation-triangle"></i> Warning: One or more factors indicate NO ENTRY
-                        </p>
-                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Validation Result -->
+        <!-- Validation Result with Grade -->
         <div class="validation-container">
             <div class="validation-header">
-                <h2>Trade Validation</h2>
+                <h2>Trade Grade</h2>
                 <button class="reset-btn" id="reset-btn"> <i class="fas fa-redo-alt"></i> Reset All </button>
             </div>
             <div class="validation-result validation-pending" id="validation-result">
                 <div class="validation-content">
                     <div class="validation-icon"><i class="fas fa-clipboard"></i></div>
                     <div class="validation-title">Complete Checklist</div>
-                    <div class="validation-details">Fill all fields above to validate trade setup</div>
+                    <div class="validation-details">Fill all fields above to get trade grade</div>
                 </div>
             </div>
         </div>
         <div class="checklist-footer">
-            <i class="fas fa-shield-alt"></i> Discipline over emotion
+            <i class="fas fa-shield-alt"></i> Discipline over emotion | Grade reflects setup quality
         </div>
     </div>
 
@@ -546,7 +600,6 @@
 
             const confirmationCard = document.getElementById('confirmation-card');
             const confirmationFieldsContainer = document.getElementById('confirmation-fields-container');
-            const confirmationDisabledMsg = document.getElementById('confirmation-disabled-msg');
 
             const htfBiasSelect = document.getElementById('htf-bias');
             const premiumDiscountSelect = document.getElementById('premium-discount');
@@ -561,7 +614,6 @@
             const htfBiasValue = document.getElementById('htf-bias-value');
             const premiumDiscountValue = document.getElementById('premium-discount-value');
             const biasIndicator = document.getElementById('bias-indicator');
-            const noEntryWarning = document.getElementById('no-entry-warning');
             const validationResult = document.getElementById('validation-result');
             const resetBtn = document.getElementById('reset-btn');
 
@@ -570,45 +622,36 @@
                 const clearedValue = htfBiasClearedSelect.value;
 
                 if (clearedValue === 'CLEARED') {
-                    // Show bias details, hide uncleared message
                     biasDetailsSection.classList.remove('hidden-section');
                     biasDetailsSection.classList.add('visible-section');
                     if (unclearedBiasMsg) unclearedBiasMsg.classList.add('hidden-section');
 
-                    // Show confirmation fields, hide disabled message
                     if (confirmationFieldsContainer) {
                         confirmationFieldsContainer.classList.remove('hidden-section');
                         confirmationFieldsContainer.classList.add('visible-section');
                     }
-                    if (confirmationDisabledMsg) confirmationDisabledMsg.classList.add('hidden-section');
                     if (confirmationCard) {
                         confirmationCard.classList.remove('confirmation-card-hidden');
                         confirmationCard.classList.add('confirmation-card-visible');
                     }
                 } else if (clearedValue === 'UNCLEARED') {
-                    // Hide bias details, show uncleared message
                     biasDetailsSection.classList.add('hidden-section');
                     biasDetailsSection.classList.remove('visible-section');
                     if (unclearedBiasMsg) unclearedBiasMsg.classList.remove('hidden-section');
 
-                    // Hide confirmation fields, show disabled message
                     if (confirmationFieldsContainer) {
                         confirmationFieldsContainer.classList.add('hidden-section');
                         confirmationFieldsContainer.classList.remove('visible-section');
                     }
-                    if (confirmationDisabledMsg) confirmationDisabledMsg.classList.remove('hidden-section');
                     if (confirmationCard) {
                         confirmationCard.classList.add('confirmation-card-hidden');
                         confirmationCard.classList.remove('confirmation-card-visible');
                     }
 
-                    // Reset bias selects when hiding
                     if (htfBiasSelect) htfBiasSelect.value = '';
                     if (premiumDiscountSelect) premiumDiscountSelect.value = '';
-                    // Also reset confirmation selects to avoid stale validation
                     resetConfirmationFields();
                 } else {
-                    // Empty selection: hide everything, show prompts
                     biasDetailsSection.classList.add('hidden-section');
                     biasDetailsSection.classList.remove('visible-section');
                     if (unclearedBiasMsg) unclearedBiasMsg.classList.add('hidden-section');
@@ -617,7 +660,6 @@
                         confirmationFieldsContainer.classList.add('hidden-section');
                         confirmationFieldsContainer.classList.remove('visible-section');
                     }
-                    if (confirmationDisabledMsg) confirmationDisabledMsg.classList.add('hidden-section');
                     if (confirmationCard) {
                         confirmationCard.classList.add('confirmation-card-hidden');
                         confirmationCard.classList.remove('confirmation-card-visible');
@@ -628,7 +670,6 @@
                     resetConfirmationFields();
                 }
 
-                // Update bias display values
                 if (htfBiasValue) htfBiasValue.textContent = '-';
                 if (premiumDiscountValue) premiumDiscountValue.textContent = '-';
                 if (biasIndicator) biasIndicator.className = 'bias-indicator';
@@ -637,7 +678,9 @@
             }
 
             function resetConfirmationFields() {
-                const confirmSelects = [htfPoiSelect, displacementSelect, rejectionSelect, liqSweepSelect, smtSelect, candleCloseSelect];
+                const confirmSelects = [htfPoiSelect, displacementSelect, rejectionSelect, liqSweepSelect, smtSelect,
+                    candleCloseSelect
+                ];
                 confirmSelects.forEach(select => {
                     if (select) select.value = '';
                 });
@@ -658,6 +701,123 @@
                 }
             }
 
+            // ---- Calculate Grade (always returns grade, never "no trade") ----
+            function calculateGrade(values) {
+                let score = 0;
+                const maxScore = 100;
+                const breakdown = {
+                    biasAlignment: 0,
+                    poiQuality: 0,
+                    confirmationFactors: 0,
+                    bonusPoints: 0,
+                    penalties: 0
+                };
+
+                const rejectionFactors = [];
+                const warnings = [];
+
+                // 1. Bias Alignment (30 points)
+                if (values.htfBias && values.premiumDiscount) {
+                    if (values.htfBias === values.premiumDiscount) {
+                        breakdown.biasAlignment = 30;
+                        score += 30;
+                    } else {
+                        breakdown.biasAlignment = 0;
+                        warnings.push('Bias mismatch');
+                        breakdown.penalties += 15;
+                    }
+                }
+
+                // 2. POI Quality (20 points)
+                const poiScores = {
+                    'FVG': 20,
+                    'OB': 18,
+                    'IFVG': 15,
+                    'BB': 12
+                };
+                if (values.htfPoi && poiScores[values.htfPoi]) {
+                    breakdown.poiQuality = poiScores[values.htfPoi];
+                    score += poiScores[values.htfPoi];
+                }
+
+                // 3. Confirmation Factors (10 points each, max 50)
+                const factorNames = {
+                    displacement: 'Displacement',
+                    rejection: 'FVG',
+                    liqSweep: 'Liquidity Sweep',
+                    smt: 'SMT',
+                    candleClose: 'Candle Close MSS'
+                };
+
+                let yesCount = 0;
+                Object.keys(factorNames).forEach(key => {
+                    if (values[key] === 'YES') {
+                        yesCount++;
+                        score += 10;
+                    } else if (values[key] === 'NO') {
+                        rejectionFactors.push(factorNames[key]);
+                        breakdown.penalties += 5;
+                    }
+                });
+                breakdown.confirmationFactors = yesCount * 10;
+
+                // 4. Bonus Points for perfect alignment
+                if (yesCount === 5 && breakdown.biasAlignment === 30 && breakdown.poiQuality >= 18) {
+                    breakdown.bonusPoints = 10;
+                    score += 10;
+                }
+
+                // Apply penalties (cap at 0)
+                score = Math.max(0, score - breakdown.penalties);
+
+                // Determine grade
+                let grade, gradeClass, gradeColor, gradeIcon, gradeType;
+                if (score >= 90) {
+                    grade = 'A+';
+                    gradeClass = 'grade-a-plus';
+                    gradeColor = '#fbbf24';
+                    gradeIcon = 'fa-star';
+                    gradeType = 'good';
+                } else if (score >= 75) {
+                    grade = 'A';
+                    gradeClass = 'grade-a';
+                    gradeColor = '#10b981';
+                    gradeIcon = 'fa-check-circle';
+                    gradeType = 'good';
+                } else if (score >= 55) {
+                    grade = 'B';
+                    gradeClass = 'grade-b';
+                    gradeColor = '#3b82f6';
+                    gradeIcon = 'fa-thumbs-up';
+                    gradeType = 'good';
+                } else if (score >= 35) {
+                    grade = 'C';
+                    gradeClass = 'grade-c';
+                    gradeColor = '#f97316';
+                    gradeIcon = 'fa-exclamation-circle';
+                    gradeType = 'bad';
+                } else {
+                    grade = 'F';
+                    gradeClass = 'grade-f';
+                    gradeColor = '#ef4444';
+                    gradeIcon = 'fa-times-circle';
+                    gradeType = 'bad';
+                }
+
+                return {
+                    score,
+                    maxScore,
+                    grade,
+                    gradeClass,
+                    gradeColor,
+                    gradeIcon,
+                    gradeType,
+                    breakdown,
+                    rejectionFactors,
+                    warnings
+                };
+            }
+
             // ---- Main validation ----
             function validateTrade() {
                 const biasCleared = htfBiasClearedSelect.value === 'CLEARED';
@@ -665,14 +825,24 @@
                 const noSelection = !htfBiasClearedSelect.value;
 
                 if (noSelection) {
-                    showResult('pending', 'Select Bias Status', 'Choose "CLEARED" or "UNCLEARED" for HTF Bias');
-                    if (noEntryWarning) noEntryWarning.style.display = 'none';
+                    showPendingResult('Select Bias Status', 'Choose "CLEARED" or "UNCLEARED" for HTF Bias');
                     return;
                 }
 
                 if (biasUncleared) {
-                    showResult('bad', 'NO TRADE - BIAS UNCLEARED', 'HTF Bias is not cleared. Confirmation factors disabled.');
-                    if (noEntryWarning) noEntryWarning.style.display = 'none';
+                    showGradeOnlyResult({
+                        score: 0,
+                        maxScore: 100,
+                        grade: 'F',
+                        gradeClass: 'grade-f',
+                        gradeColor: '#ef4444',
+                        gradeIcon: 'fa-times-circle',
+                        gradeType: 'bad',
+                        breakdown: { biasAlignment: 0, poiQuality: 0, confirmationFactors: 0, bonusPoints: 0,
+                            penalties: 0 },
+                        rejectionFactors: ['HTF Bias Uncleared'],
+                        warnings: ['Bias not cleared - no trade recommended']
+                    }, 'UNCLEARED');
                     return;
                 }
 
@@ -693,65 +863,114 @@
 
                 updateBiasDisplay(values);
 
-                const requiredFields = [values.htfBias, values.premiumDiscount, values.htfPoi, values.displacement, values.rejection, values.liqSweep, values.smt, values.candleClose];
+                const requiredFields = [values.htfBias, values.premiumDiscount, values.htfPoi, values.displacement,
+                    values.rejection, values.liqSweep, values.smt, values.candleClose
+                ];
                 const allRequiredFilled = requiredFields.every(v => v !== '' && v !== null);
 
                 if (!allRequiredFilled) {
-                    showResult('pending', 'Complete Checklist', 'Fill all required fields to validate trade setup');
-                    if (noEntryWarning) noEntryWarning.style.display = 'none';
+                    showPendingResult('Complete Checklist', 'Fill all required fields to get trade grade');
                     return;
                 }
 
-                const yesNoFactors = [values.displacement, values.rejection, values.liqSweep, values.smt, values.candleClose];
-                const noEntryFactors = yesNoFactors.filter(v => v === 'NO');
-                const allYes = yesNoFactors.every(v => v === 'YES');
-                const biasAligned = values.htfBias === values.premiumDiscount;
+                // Calculate grade
+                const gradeResult = calculateGrade(values);
 
-                if (noEntryFactors.length > 0) {
-                    const factorNames = getFactorNames(values);
-                    showResult('bad', 'NO TRADE CONFIRMATION', `${noEntryFactors.length} rejection factor(s): ${factorNames}`);
-                    if (noEntryWarning) noEntryWarning.style.display = 'block';
-                } else if (!allYes) {
-                    showResult('bad', 'INCOMPLETE SETUP', 'All confirmation factors must be YES');
-                    if (noEntryWarning) noEntryWarning.style.display = 'none';
-                } else if (!biasAligned) {
-                    showResult('bad', 'BIAS MISMATCH', 'HTF BIAS and Premium/Discount do not align');
-                    if (noEntryWarning) noEntryWarning.style.display = 'none';
-                } else if (!values.htfPoi) {
-                    showResult('bad', 'POI REQUIRED', 'HTF POI must be selected');
-                    if (noEntryWarning) noEntryWarning.style.display = 'none';
-                } else {
-                    showResult('good', 'TRADE CONFIRMED', `All factors aligned for ${values.htfBias} at ${values.htfPoi} POI`);
-                    if (noEntryWarning) noEntryWarning.style.display = 'none';
-                }
+                // Show grade result
+                showGradeOnlyResult(gradeResult, values.htfBias);
             }
 
-            function getFactorNames(values) {
-                const map = {
-                    displacement: 'Displacement',
-                    rejection: 'FVG',
-                    liqSweep: 'Liquidity Sweep',
-                    smt: 'SMT',
-                    candleClose: 'Candle Close MSS'
-                };
-                return Object.entries(map).filter(([key]) => values[key] === 'NO').map(([, name]) => name).join(', ');
-            }
-
-            function showResult(type, title, details) {
+            function showPendingResult(title, details) {
                 if (!validationResult) return;
-                const icons = {
-                    pending: 'fa-clipboard',
-                    good: 'fa-check-circle',
-                    bad: 'fa-times-circle'
-                };
-                validationResult.className = `validation-result ${type === 'good' ? 'validation-good' : type === 'bad' ? 'validation-bad' : 'validation-pending'}`;
+                validationResult.className = 'validation-result validation-pending';
                 validationResult.innerHTML = `
-          <div class="validation-content">
-            <div class="validation-icon"><i class="fas ${icons[type] || 'fa-clipboard'}"></i></div>
-            <div class="validation-title">${title}</div>
-            <div class="validation-details">${details}</div>
-          </div>
-        `;
+                    <div class="validation-content">
+                        <div class="validation-icon"><i class="fas fa-clipboard"></i></div>
+                        <div class="validation-title">${title}</div>
+                        <div class="validation-details">${details}</div>
+                    </div>
+                `;
+            }
+
+            function showGradeOnlyResult(gradeResult, direction) {
+                if (!validationResult) return;
+
+                validationResult.className =
+                    `validation-result ${gradeResult.gradeType === 'good' ? 'validation-good' : 'validation-bad'}`;
+
+                let rejectionHTML = '';
+                if (gradeResult.rejectionFactors.length > 0) {
+                    rejectionHTML = `
+                        <div class="rejection-list">
+                            <i class="fas fa-exclamation-triangle"></i> 
+                            Issues: ${gradeResult.rejectionFactors.join(', ')}
+                        </div>
+                    `;
+                }
+
+                let warningsHTML = '';
+                if (gradeResult.warnings.length > 0) {
+                    warningsHTML = `
+                        <div class="rejection-list" style="background: rgba(251, 191, 36, 0.1); color: #fbbf24;">
+                            <i class="fas fa-info-circle"></i> 
+                            ${gradeResult.warnings.join(', ')}
+                        </div>
+                    `;
+                }
+
+                const descriptions = {
+                    'A+': 'PERFECT SETUP! All factors aligned optimally.',
+                    'A': 'Excellent setup. High probability trade.',
+                    'B': 'Good setup. Manageable risk.',
+                    'C': 'Acceptable setup. Proceed with caution.',
+                    'F': 'Weak setup. Consider skipping this trade.'
+                };
+
+                validationResult.innerHTML = `
+                    <div class="validation-content">
+                        <div class="validation-icon">
+                            <i class="fas ${gradeResult.gradeIcon}" style="color: ${gradeResult.gradeColor}"></i>
+                        </div>
+                        <div class="validation-title" style="color: ${gradeResult.gradeColor}">
+                            Trade Grade
+                        </div>
+                        <span class="grade-badge ${gradeResult.gradeClass}">${gradeResult.grade}</span>
+                        <div class="score-breakdown">
+                            <div class="score-item">
+                                <i class="fas fa-bullseye"></i> Score 
+                                <span>${gradeResult.score}/${gradeResult.maxScore}</span>
+                            </div>
+                            <div class="score-item">
+                                <i class="fas fa-balance-scale"></i> Bias 
+                                <span>${gradeResult.breakdown.biasAlignment}/30</span>
+                            </div>
+                            <div class="score-item">
+                                <i class="fas fa-crosshairs"></i> POI 
+                                <span>${gradeResult.breakdown.poiQuality}/20</span>
+                            </div>
+                            <div class="score-item">
+                                <i class="fas fa-check-double"></i> Factors 
+                                <span>${gradeResult.breakdown.confirmationFactors}/50</span>
+                            </div>
+                            ${gradeResult.breakdown.bonusPoints > 0 ? `
+                            <div class="score-item">
+                                <i class="fas fa-gem"></i> Bonus 
+                                <span>+${gradeResult.breakdown.bonusPoints}</span>
+                            </div>` : ''}
+                            ${gradeResult.breakdown.penalties > 0 ? `
+                            <div class="score-item">
+                                <i class="fas fa-minus-circle"></i> Penalty 
+                                <span>-${gradeResult.breakdown.penalties}</span>
+                            </div>` : ''}
+                        </div>
+                        ${rejectionHTML}
+                        ${warningsHTML}
+                        <div class="validation-details" style="margin-top: 12px;">
+                            ${direction && direction !== 'UNCLEARED' ? direction + ' setup' : 'No direction'} | 
+                            ${descriptions[gradeResult.grade] || 'Review setup carefully'}
+                        </div>
+                    </div>
+                `;
             }
 
             function resetChecklist() {
@@ -770,7 +989,6 @@
                     if (select) select.value = '';
                 });
 
-                // Hide all conditional sections
                 if (biasDetailsSection) {
                     biasDetailsSection.classList.add('hidden-section');
                     biasDetailsSection.classList.remove('visible-section');
@@ -780,7 +998,6 @@
                     confirmationFieldsContainer.classList.add('hidden-section');
                     confirmationFieldsContainer.classList.remove('visible-section');
                 }
-                if (confirmationDisabledMsg) confirmationDisabledMsg.classList.add('hidden-section');
                 if (confirmationCard) {
                     confirmationCard.classList.add('confirmation-card-hidden');
                     confirmationCard.classList.remove('confirmation-card-visible');
@@ -789,9 +1006,8 @@
                 if (htfBiasValue) htfBiasValue.textContent = '-';
                 if (premiumDiscountValue) premiumDiscountValue.textContent = '-';
                 if (biasIndicator) biasIndicator.className = 'bias-indicator';
-                if (noEntryWarning) noEntryWarning.style.display = 'none';
 
-                showResult('pending', 'Complete Checklist', 'Fill all fields above to validate trade setup');
+                showPendingResult('Complete Checklist', 'Fill all fields above to get trade grade');
             }
 
             // Event Listeners
@@ -812,14 +1028,13 @@
                 resetBtn.addEventListener('click', resetChecklist);
             }
 
-            // Initial state: everything hidden, prompt to select bias status
+            // Initial state
             if (biasDetailsSection) biasDetailsSection.classList.add('hidden-section');
             if (unclearedBiasMsg) unclearedBiasMsg.classList.add('hidden-section');
             if (confirmationFieldsContainer) confirmationFieldsContainer.classList.add('hidden-section');
-            if (confirmationDisabledMsg) confirmationDisabledMsg.classList.add('hidden-section');
             if (confirmationCard) confirmationCard.classList.add('confirmation-card-hidden');
 
-            showResult('pending', 'Select Bias Status', 'Choose "CLEARED" or "UNCLEARED" to begin');
+            showPendingResult('Complete Checklist', 'Fill all fields above to get trade grade');
         })();
     </script>
 </body>

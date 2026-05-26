@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Trading Checklist | HTF Bias Cleared</title>
+    <title>Trading Checklist | Dynamic Grade System</title>
     <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -63,11 +63,9 @@
             .checklist-grid {
                 grid-template-columns: 1fr;
             }
-
             body {
                 padding: 12px;
             }
-
             header h1 {
                 font-size: 1.6rem;
             }
@@ -78,7 +76,7 @@
             border-radius: 10px;
             padding: 20px;
             border: 1px solid #334155;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
 
         .card-title {
@@ -136,7 +134,7 @@
             border-radius: 6px;
             font-size: 0.9rem;
             cursor: pointer;
-            transition: border 0.2s, background 0.2s;
+            transition: all 0.2s;
             appearance: none;
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%2394a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
             background-repeat: no-repeat;
@@ -150,6 +148,16 @@
             background-color: #2d3a4f;
         }
 
+        select.yes-selected {
+            border-color: #10b981 !important;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+        }
+
+        select.no-selected {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
+        }
+
         .bias-indicator {
             display: flex;
             justify-content: space-between;
@@ -158,7 +166,7 @@
             border-radius: 8px;
             padding: 12px;
             border: 2px solid transparent;
-            transition: border-color 0.2s, background-color 0.2s;
+            transition: all 0.3s;
         }
 
         .bias-indicator.good {
@@ -189,7 +197,6 @@
             color: #f1f5f9;
         }
 
-        /* Toggle visibility classes */
         .hidden-section {
             display: none !important;
         }
@@ -202,20 +209,21 @@
             margin-top: 8px;
             border-top: 1px dashed #334155;
             padding-top: 15px;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
 
-        /* Confirmation card visibility */
         .confirmation-card-hidden {
-            opacity: 0.4;
+            opacity: 0.3;
             pointer-events: none;
             user-select: none;
+            filter: grayscale(50%);
         }
 
         .confirmation-card-visible {
             opacity: 1;
             pointer-events: auto;
             user-select: auto;
+            filter: grayscale(0%);
         }
 
         .validation-container {
@@ -266,7 +274,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
+            transition: all 0.3s;
         }
 
         .validation-good {
@@ -275,8 +283,14 @@
         }
 
         .validation-bad {
-            border: 2px solid #ef4444;
-            background-color: rgba(239, 68, 68, 0.08);
+            border: 3px solid #ef4444;
+            background-color: rgba(239, 68, 68, 0.1);
+            animation: pulseBorder 2s infinite;
+        }
+
+        @keyframes pulseBorder {
+            0%, 100% { border-color: #ef4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
+            50% { border-color: #dc2626; box-shadow: 0 0 30px rgba(239, 68, 68, 0.6); }
         }
 
         .validation-pending {
@@ -288,7 +302,7 @@
         }
 
         .validation-icon {
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin-bottom: 10px;
         }
 
@@ -332,68 +346,114 @@
             font-size: 0.8rem;
         }
 
-        .select-hint {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            margin-top: 2px;
+        .trade-grade-f-display {
+            text-align: center;
+            padding: 5px;
         }
 
-        .uncleared-message {
-            background: #1e293b;
-            border-radius: 8px;
+        .trade-grade-f-display .big-f-letter {
+            font-size: 6rem;
+            font-weight: 900;
+            color: #ef4444;
+            line-height: 1;
+            text-shadow: 0 0 40px rgba(239, 68, 68, 0.7);
+            animation: shakeF 0.6s ease-out;
+        }
+
+        @keyframes shakeF {
+            0%, 100% { transform: translateX(0); }
+            10%, 50%, 90% { transform: translateX(-10px); }
+            30%, 70% { transform: translateX(10px); }
+        }
+
+        .trade-grade-f-display .trade-grade-f-label {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ef4444;
+            margin: 8px 0;
+            letter-spacing: 2px;
+        }
+
+        .trade-grade-f-display .mismatch-reason {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fca5a5;
+            margin: 10px 0;
             padding: 12px;
-            color: #f87171;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 10px;
+            background: rgba(239, 68, 68, 0.15);
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
-        /* Grade Badge Styles */
+        .trade-grade-f-display .zero-scores-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .trade-grade-f-display .zero-score-box {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            background: rgba(239, 68, 68, 0.1);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            min-width: 80px;
+        }
+
+        .trade-grade-f-display .zero-score-box span {
+            display: block;
+            font-weight: 700;
+            color: #ef4444;
+            font-size: 1.2rem;
+        }
+
         .grade-badge {
             display: inline-block;
-            padding: 6px 16px;
-            border-radius: 20px;
+            padding: 8px 20px;
+            border-radius: 25px;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             margin: 10px 0;
             letter-spacing: 0.5px;
+            animation: gradePop 0.5s ease-out;
+        }
+
+        @keyframes gradePop {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .grade-a-plus {
             background: linear-gradient(135deg, #fbbf24, #f59e0b);
             color: #1e293b;
             border: 2px solid #fbbf24;
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.4);
         }
 
         .grade-a {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             border: 2px solid #10b981;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
         }
 
         .grade-b {
             background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
             border: 2px solid #3b82f6;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
         }
 
         .grade-c {
             background: linear-gradient(135deg, #f97316, #ea580c);
             color: white;
             border: 2px solid #f97316;
-            box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
-        }
-
-        .grade-f {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-            border: 2px solid #ef4444;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
         }
 
         .score-breakdown {
@@ -408,6 +468,7 @@
             text-align: center;
             font-size: 0.85rem;
             color: #94a3b8;
+            transition: all 0.3s;
         }
 
         .score-item span {
@@ -415,6 +476,15 @@
             font-weight: 700;
             color: #f1f5f9;
             font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .score-item.highlight {
+            color: #10b981;
+        }
+
+        .score-item.highlight span {
+            color: #10b981;
         }
 
         .rejection-list {
@@ -426,17 +496,47 @@
             color: #fca5a5;
             display: inline-block;
         }
+
+        .uncleared-message, .bias-mismatch-warning, .confirmation-disabled-message {
+            background: rgba(239, 68, 68, 0.15);
+            border: 2px solid #ef4444;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            color: #fca5a5;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .live-counter {
+            display: inline-block;
+            background: #334155;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-left: 8px;
+        }
+
+        .partial-grade-info {
+            font-size: 0.85rem;
+            color: #fbbf24;
+            margin-top: 8px;
+            font-style: italic;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-clipboard-check"></i> Checklist</h1>
-            <p>HTF Bias • Confirmation • Grade System</p>
+            <h1><i class="fas fa-clipboard-check"></i> Trading Checklist</h1>
+            <p>Dynamic Grade • Updates on Every Single Change</p>
         </header>
 
-        <!-- Quote Section -->
         <div class="quote-card">
             <ul>
                 <li>No displacement = No Trade</li>
@@ -445,14 +545,12 @@
         </div>
 
         <div class="checklist-grid">
-            <!-- Left Column: Market Bias (with HTF Cleared toggle) -->
             <div class="checklist-card">
                 <div class="card-title">
                     <i class="fas fa-chart-line"></i>
                     <h2>Market Bias</h2>
                 </div>
 
-                <!-- HTF Bias Cleared dropdown -->
                 <div class="form-group">
                     <label for="htf-bias-cleared"><i class="fas fa-broom"></i> HTF Bias Cleared?</label>
                     <select id="htf-bias-cleared">
@@ -462,7 +560,6 @@
                     </select>
                 </div>
 
-                <!-- Conditional bias fields (hidden by default, shown if CLEARED) -->
                 <div id="bias-details-section" class="conditional-fields hidden-section">
                     <div class="bias-indicator" id="bias-indicator">
                         <div class="bias-item">
@@ -493,26 +590,29 @@
                             </select>
                         </div>
                     </div>
+
+                    <div id="bias-mismatch-msg" class="bias-mismatch-warning hidden-section">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        <span>⚠️ BIAS MISMATCH → Trade Grade: F</span>
+                    </div>
                 </div>
 
-                <!-- Message when UNCLEARED -->
                 <div id="uncleared-bias-msg" class="uncleared-message hidden-section">
-                    <i class="fas fa-eye-slash"></i> Bias not cleared. Confirmation factors disabled.
+                    <i class="fas fa-eye-slash"></i> Bias not cleared → Trade Grade: F
                 </div>
             </div>
 
-            <!-- Right Column: Confirmation Factors (visibility controlled by bias cleared) -->
             <div class="checklist-card" id="confirmation-card">
                 <div class="card-title">
                     <i class="fas fa-filter"></i>
-                    <h2>Confirmation Factors</h2>
+                    <h2>Confirmation Factors <span class="live-counter" id="yes-counter">0/5 YES</span></h2>
                 </div>
 
                 <div id="confirmation-fields-container">
                     <div class="form-group">
                         <label for="htf-poi">HTF POI</label>
                         <select id="htf-poi">
-                            <option value="">Select</option>
+                            <option value="">Select POI</option>
                             <option value="FVG">FVG</option>
                             <option value="OB">OB</option>
                             <option value="BB">BB</option>
@@ -523,18 +623,18 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="liq-sweep">Liquidity Sweep</label>
-                            <select id="liq-sweep">
+                            <select id="liq-sweep" class="yes-no-select">
                                 <option value="">Select</option>
-                                <option value="YES">YES</option>
-                                <option value="NO">NO</option>
+                                <option value="YES">✅ YES</option>
+                                <option value="NO">❌ NO</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="candle-close">Candle Close MSS</label>
-                            <select id="candle-close">
+                            <select id="candle-close" class="yes-no-select">
                                 <option value="">Select</option>
-                                <option value="YES">YES</option>
-                                <option value="NO">NO</option>
+                                <option value="YES">✅ YES</option>
+                                <option value="NO">❌ NO</option>
                             </select>
                         </div>
                     </div>
@@ -542,18 +642,18 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="displacement">Displacement</label>
-                            <select id="displacement">
+                            <select id="displacement" class="yes-no-select">
                                 <option value="">Select</option>
-                                <option value="YES">YES</option>
-                                <option value="NO">NO</option>
+                                <option value="YES">✅ YES</option>
+                                <option value="NO">❌ NO</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="rejection">FVG</label>
-                            <select id="rejection">
+                            <select id="rejection" class="yes-no-select">
                                 <option value="">Select</option>
-                                <option value="YES">YES</option>
-                                <option value="NO">NO</option>
+                                <option value="YES">✅ YES</option>
+                                <option value="NO">❌ NO </option>
                             </select>
                         </div>
                     </div>
@@ -561,33 +661,38 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="smt">SMT</label>
-                            <select id="smt">
+                            <select id="smt" class="yes-no-select">
                                 <option value="">Select</option>
-                                <option value="YES">YES</option>
-                                <option value="NO">NO</option>
+                                <option value="YES">✅ YES </option>
+                                <option value="NO">❌ NO </option>
                             </select>
                         </div>
                     </div>
                 </div>
+
+                <div id="confirmation-disabled-msg" class="confirmation-disabled-message hidden-section">
+                    <i class="fas fa-lock"></i>
+                    <span>Disabled - Fix Bias Mismatch to Enable</span>
+                </div>
             </div>
         </div>
 
-        <!-- Validation Result with Grade -->
+        <!-- Dynamic Trade Grade Section -->
         <div class="validation-container">
             <div class="validation-header">
-                <h2>Trade Grade</h2>
+                <h2>📊 Trade Grade <span style="font-size:0.8rem;color:#94a3b8;">(Live)</span></h2>
                 <button class="reset-btn" id="reset-btn"> <i class="fas fa-redo-alt"></i> Reset All </button>
             </div>
             <div class="validation-result validation-pending" id="validation-result">
                 <div class="validation-content">
                     <div class="validation-icon"><i class="fas fa-clipboard"></i></div>
-                    <div class="validation-title">Complete Checklist</div>
-                    <div class="validation-details">Fill all fields above to get trade grade</div>
+                    <div class="validation-title">Start Selecting</div>
+                    <div class="validation-details">Grade calculates dynamically with every selection</div>
                 </div>
             </div>
         </div>
         <div class="checklist-footer">
-            <i class="fas fa-shield-alt"></i> Discipline over emotion | Grade reflects setup quality
+            <i class="fas fa-shield-alt"></i> Dynamic Live Grading | Every change updates instantly
         </div>
     </div>
 
@@ -597,10 +702,10 @@
             const htfBiasClearedSelect = document.getElementById('htf-bias-cleared');
             const biasDetailsSection = document.getElementById('bias-details-section');
             const unclearedBiasMsg = document.getElementById('uncleared-bias-msg');
-
+            const biasMismatchMsg = document.getElementById('bias-mismatch-msg');
             const confirmationCard = document.getElementById('confirmation-card');
             const confirmationFieldsContainer = document.getElementById('confirmation-fields-container');
-
+            const confirmationDisabledMsg = document.getElementById('confirmation-disabled-msg');
             const htfBiasSelect = document.getElementById('htf-bias');
             const premiumDiscountSelect = document.getElementById('premium-discount');
             const htfPoiSelect = document.getElementById('htf-poi');
@@ -609,88 +714,121 @@
             const liqSweepSelect = document.getElementById('liq-sweep');
             const smtSelect = document.getElementById('smt');
             const candleCloseSelect = document.getElementById('candle-close');
-
-            // Display elements
             const htfBiasValue = document.getElementById('htf-bias-value');
             const premiumDiscountValue = document.getElementById('premium-discount-value');
             const biasIndicator = document.getElementById('bias-indicator');
             const validationResult = document.getElementById('validation-result');
             const resetBtn = document.getElementById('reset-btn');
+            const yesCounter = document.getElementById('yes-counter');
 
-            // ---- Toggle visibility based on HTF Bias Cleared ----
-            function toggleAllSections() {
+            // Get all current values
+            function getCurrentValues() {
+                return {
+                    htfBias: htfBiasSelect?.value || '',
+                    premiumDiscount: premiumDiscountSelect?.value || '',
+                    htfPoi: htfPoiSelect?.value || '',
+                    displacement: displacementSelect?.value || '',
+                    rejection: rejectionSelect?.value || '',
+                    liqSweep: liqSweepSelect?.value || '',
+                    smt: smtSelect?.value || '',
+                    candleClose: candleCloseSelect?.value || ''
+                };
+            }
+
+            // Update YES/NO select styling
+            function updateSelectStyles() {
+                const yesNoSelects = [displacementSelect, rejectionSelect, liqSweepSelect, smtSelect, candleCloseSelect];
+                yesNoSelects.forEach(select => {
+                    if (select) {
+                        select.classList.remove('yes-selected', 'no-selected');
+                        if (select.value === 'YES') select.classList.add('yes-selected');
+                        if (select.value === 'NO') select.classList.add('no-selected');
+                    }
+                });
+            }
+
+            // Update YES counter
+            function updateYesCounter(values) {
+                const yesCount = [values.displacement, values.rejection, values.liqSweep, values.smt, values.candleClose]
+                    .filter(v => v === 'YES').length;
+                const noCount = [values.displacement, values.rejection, values.liqSweep, values.smt, values.candleClose]
+                    .filter(v => v === 'NO').length;
+                if (yesCounter) {
+                    yesCounter.textContent = `${yesCount}/5 YES`;
+                    yesCounter.style.color = yesCount === 5 ? '#10b981' : yesCount >= 3 ? '#fbbf24' : '#94a3b8';
+                }
+                return { yesCount, noCount };
+            }
+
+            // Update UI based on current state
+            function updateUIForBiasState() {
                 const clearedValue = htfBiasClearedSelect.value;
+                const values = getCurrentValues();
+                const biasMismatched = values.htfBias && values.premiumDiscount && values.htfBias !== values.premiumDiscount;
 
                 if (clearedValue === 'CLEARED') {
                     biasDetailsSection.classList.remove('hidden-section');
                     biasDetailsSection.classList.add('visible-section');
                     if (unclearedBiasMsg) unclearedBiasMsg.classList.add('hidden-section');
 
-                    if (confirmationFieldsContainer) {
-                        confirmationFieldsContainer.classList.remove('hidden-section');
-                        confirmationFieldsContainer.classList.add('visible-section');
-                    }
-                    if (confirmationCard) {
-                        confirmationCard.classList.remove('confirmation-card-hidden');
-                        confirmationCard.classList.add('confirmation-card-visible');
+                    if (biasMismatched) {
+                        if (confirmationFieldsContainer) {
+                            confirmationFieldsContainer.classList.add('hidden-section');
+                            confirmationFieldsContainer.classList.remove('visible-section');
+                        }
+                        if (confirmationDisabledMsg) confirmationDisabledMsg.classList.remove('hidden-section');
+                        if (confirmationCard) {
+                            confirmationCard.classList.add('confirmation-card-hidden');
+                            confirmationCard.classList.remove('confirmation-card-visible');
+                        }
+                        if (biasMismatchMsg) biasMismatchMsg.classList.remove('hidden-section');
+                    } else {
+                        if (confirmationFieldsContainer) {
+                            confirmationFieldsContainer.classList.remove('hidden-section');
+                            confirmationFieldsContainer.classList.add('visible-section');
+                        }
+                        if (confirmationDisabledMsg) confirmationDisabledMsg.classList.add('hidden-section');
+                        if (confirmationCard) {
+                            confirmationCard.classList.remove('confirmation-card-hidden');
+                            confirmationCard.classList.add('confirmation-card-visible');
+                        }
+                        if (biasMismatchMsg) biasMismatchMsg.classList.add('hidden-section');
                     }
                 } else if (clearedValue === 'UNCLEARED') {
                     biasDetailsSection.classList.add('hidden-section');
                     biasDetailsSection.classList.remove('visible-section');
                     if (unclearedBiasMsg) unclearedBiasMsg.classList.remove('hidden-section');
-
+                    if (biasMismatchMsg) biasMismatchMsg.classList.add('hidden-section');
                     if (confirmationFieldsContainer) {
                         confirmationFieldsContainer.classList.add('hidden-section');
                         confirmationFieldsContainer.classList.remove('visible-section');
                     }
+                    if (confirmationDisabledMsg) confirmationDisabledMsg.classList.add('hidden-section');
                     if (confirmationCard) {
                         confirmationCard.classList.add('confirmation-card-hidden');
                         confirmationCard.classList.remove('confirmation-card-visible');
                     }
-
-                    if (htfBiasSelect) htfBiasSelect.value = '';
-                    if (premiumDiscountSelect) premiumDiscountSelect.value = '';
-                    resetConfirmationFields();
                 } else {
                     biasDetailsSection.classList.add('hidden-section');
                     biasDetailsSection.classList.remove('visible-section');
                     if (unclearedBiasMsg) unclearedBiasMsg.classList.add('hidden-section');
-
+                    if (biasMismatchMsg) biasMismatchMsg.classList.add('hidden-section');
                     if (confirmationFieldsContainer) {
                         confirmationFieldsContainer.classList.add('hidden-section');
                         confirmationFieldsContainer.classList.remove('visible-section');
                     }
+                    if (confirmationDisabledMsg) confirmationDisabledMsg.classList.add('hidden-section');
                     if (confirmationCard) {
                         confirmationCard.classList.add('confirmation-card-hidden');
                         confirmationCard.classList.remove('confirmation-card-visible');
                     }
-
-                    if (htfBiasSelect) htfBiasSelect.value = '';
-                    if (premiumDiscountSelect) premiumDiscountSelect.value = '';
-                    resetConfirmationFields();
                 }
-
-                if (htfBiasValue) htfBiasValue.textContent = '-';
-                if (premiumDiscountValue) premiumDiscountValue.textContent = '-';
-                if (biasIndicator) biasIndicator.className = 'bias-indicator';
-
-                validateTrade();
             }
 
-            function resetConfirmationFields() {
-                const confirmSelects = [htfPoiSelect, displacementSelect, rejectionSelect, liqSweepSelect, smtSelect,
-                    candleCloseSelect
-                ];
-                confirmSelects.forEach(select => {
-                    if (select) select.value = '';
-                });
-            }
-
-            // ---- Update bias indicator display ----
+            // Update bias display
             function updateBiasDisplay(values) {
                 if (htfBiasValue) htfBiasValue.textContent = values.htfBias || '-';
                 if (premiumDiscountValue) premiumDiscountValue.textContent = values.premiumDiscount || '-';
-
                 if (!biasIndicator) return;
                 const biasFilled = values.htfBias && values.premiumDiscount;
                 if (biasFilled) {
@@ -701,67 +839,107 @@
                 }
             }
 
-            // ---- Calculate Grade (always returns grade, never "no trade") ----
-            function calculateGrade(values) {
+            // Check bias mismatch
+            function isBiasMismatched(values) {
+                return values.htfBias && values.premiumDiscount && values.htfBias !== values.premiumDiscount;
+            }
+
+            // DYNAMIC VALIDATION - ALWAYS calculates grade with whatever values exist
+            function dynamicValidate() {
+                const clearedValue = htfBiasClearedSelect.value;
+                const values = getCurrentValues();
+
+                // Update UI
+                updateUIForBiasState();
+                updateBiasDisplay(values);
+                updateSelectStyles();
+                const { yesCount, noCount } = updateYesCounter(values);
+
+                // UNCLEARED = F
+                if (clearedValue === 'UNCLEARED') {
+                    showTradeGradeF('BIAS UNCLEARED', 'Select "CLEARED" in Market Bias to proceed.');
+                    return;
+                }
+
+                // CLEARED but bias mismatch = F
+                if (clearedValue === 'CLEARED' && isBiasMismatched(values)) {
+                    showTradeGradeF('BIAS MISMATCH', `${values.htfBias} ≠ ${values.premiumDiscount} - Fix the bias to enable Confirmation Factors.`);
+                    return;
+                }
+
+                // For everything else - CALCULATE GRADE DYNAMICALLY with current values
+                const gradeResult = calculateDynamicGrade(values, clearedValue);
+                
+                // Show grade based on how many fields are filled
+                const totalFields = 8; // 2 bias + 1 POI + 5 confirmation
+                const filledFields = [
+                    values.htfBias, values.premiumDiscount, values.htfPoi,
+                    values.displacement, values.rejection, values.liqSweep, values.smt, values.candleClose
+                ].filter(v => v !== '').length;
+
+                if (filledFields === 0 && !clearedValue) {
+                    showPendingResult('Start Selecting', 'Grade calculates dynamically with every selection');
+                } else {
+                    showDynamicGradeResult(gradeResult, values, filledFields, totalFields);
+                }
+            }
+
+            // Calculate grade dynamically with whatever values are present
+            function calculateDynamicGrade(values, clearedValue) {
                 let score = 0;
                 const maxScore = 100;
-                const breakdown = {
-                    biasAlignment: 0,
-                    poiQuality: 0,
-                    confirmationFactors: 0,
-                    bonusPoints: 0,
-                    penalties: 0
-                };
-
+                const breakdown = { biasAlignment: 0, poiQuality: 0, confirmationFactors: 0, bonusPoints: 0, penalties: 0 };
                 const rejectionFactors = [];
-                const warnings = [];
+                const goodFactors = [];
+                const unfilledFactors = [];
 
-                // 1. Bias Alignment (30 points)
-                if (values.htfBias && values.premiumDiscount) {
-                    if (values.htfBias === values.premiumDiscount) {
-                        breakdown.biasAlignment = 30;
-                        score += 30;
-                    } else {
-                        breakdown.biasAlignment = 0;
-                        warnings.push('Bias mismatch');
-                        breakdown.penalties += 15;
-                    }
+                // 1. Bias Alignment (30 points) - Only if both selected and match
+                if (values.htfBias && values.premiumDiscount && values.htfBias === values.premiumDiscount) {
+                    breakdown.biasAlignment = 30;
+                    score += 30;
+                } else if (values.htfBias && values.premiumDiscount && values.htfBias !== values.premiumDiscount) {
+                    // Mismatched - handled before this function, but just in case
+                    breakdown.biasAlignment = 0;
+                } else if (!values.htfBias || !values.premiumDiscount) {
+                    // Not filled yet
+                    if (!values.htfBias) unfilledFactors.push('HTF BIAS');
+                    if (!values.premiumDiscount) unfilledFactors.push('Premium/Discount');
                 }
 
                 // 2. POI Quality (20 points)
-                const poiScores = {
-                    'FVG': 20,
-                    'OB': 18,
-                    'IFVG': 15,
-                    'BB': 12
-                };
+                const poiScores = { 'FVG': 20, 'OB': 18, 'IFVG': 15, 'BB': 12 };
                 if (values.htfPoi && poiScores[values.htfPoi]) {
                     breakdown.poiQuality = poiScores[values.htfPoi];
                     score += poiScores[values.htfPoi];
+                } else if (!values.htfPoi) {
+                    unfilledFactors.push('HTF POI');
                 }
 
                 // 3. Confirmation Factors (10 points each, max 50)
-                const factorNames = {
-                    displacement: 'Displacement',
-                    rejection: 'FVG',
-                    liqSweep: 'Liquidity Sweep',
-                    smt: 'SMT',
-                    candleClose: 'Candle Close MSS'
+                const factorNames = { 
+                    displacement: 'Displacement', 
+                    rejection: 'FVG', 
+                    liqSweep: 'Liquidity Sweep', 
+                    smt: 'SMT', 
+                    candleClose: 'Candle Close MSS' 
                 };
-
+                
                 let yesCount = 0;
                 Object.keys(factorNames).forEach(key => {
-                    if (values[key] === 'YES') {
-                        yesCount++;
-                        score += 10;
-                    } else if (values[key] === 'NO') {
-                        rejectionFactors.push(factorNames[key]);
+                    if (values[key] === 'YES') { 
+                        yesCount++; 
+                        score += 10; 
+                        goodFactors.push(factorNames[key]);
+                    } else if (values[key] === 'NO') { 
+                        rejectionFactors.push(factorNames[key]); 
                         breakdown.penalties += 5;
+                    } else if (!values[key]) {
+                        unfilledFactors.push(factorNames[key]);
                     }
                 });
                 breakdown.confirmationFactors = yesCount * 10;
 
-                // 4. Bonus Points for perfect alignment
+                // 4. Bonus Points for perfect setup
                 if (yesCount === 5 && breakdown.biasAlignment === 30 && breakdown.poiQuality >= 18) {
                     breakdown.bonusPoints = 10;
                     score += 10;
@@ -770,161 +948,130 @@
                 // Apply penalties (cap at 0)
                 score = Math.max(0, score - breakdown.penalties);
 
-                // Determine grade
+                // Determine grade dynamically
                 let grade, gradeClass, gradeColor, gradeIcon, gradeType;
-                if (score >= 90) {
-                    grade = 'A+';
-                    gradeClass = 'grade-a-plus';
-                    gradeColor = '#fbbf24';
-                    gradeIcon = 'fa-star';
-                    gradeType = 'good';
-                } else if (score >= 75) {
-                    grade = 'A';
-                    gradeClass = 'grade-a';
-                    gradeColor = '#10b981';
-                    gradeIcon = 'fa-check-circle';
-                    gradeType = 'good';
-                } else if (score >= 55) {
-                    grade = 'B';
-                    gradeClass = 'grade-b';
-                    gradeColor = '#3b82f6';
-                    gradeIcon = 'fa-thumbs-up';
-                    gradeType = 'good';
-                } else if (score >= 35) {
-                    grade = 'C';
-                    gradeClass = 'grade-c';
-                    gradeColor = '#f97316';
-                    gradeIcon = 'fa-exclamation-circle';
-                    gradeType = 'bad';
-                } else {
-                    grade = 'F';
-                    gradeClass = 'grade-f';
-                    gradeColor = '#ef4444';
-                    gradeIcon = 'fa-times-circle';
-                    gradeType = 'bad';
+                if (score >= 90) { 
+                    grade = 'A+'; gradeClass = 'grade-a-plus'; gradeColor = '#fbbf24'; gradeIcon = 'fa-star'; gradeType = 'good'; 
+                } else if (score >= 75) { 
+                    grade = 'A'; gradeClass = 'grade-a'; gradeColor = '#10b981'; gradeIcon = 'fa-check-circle'; gradeType = 'good'; 
+                } else if (score >= 55) { 
+                    grade = 'B'; gradeClass = 'grade-b'; gradeColor = '#3b82f6'; gradeIcon = 'fa-thumbs-up'; gradeType = 'good'; 
+                } else if (score >= 35) { 
+                    grade = 'C'; gradeClass = 'grade-c'; gradeColor = '#f97316'; gradeIcon = 'fa-exclamation-circle'; gradeType = 'bad'; 
+                } else { 
+                    grade = 'F'; gradeClass = 'grade-f-badge'; gradeColor = '#ef4444'; gradeIcon = 'fa-times-circle'; gradeType = 'bad'; 
                 }
 
-                return {
-                    score,
-                    maxScore,
-                    grade,
-                    gradeClass,
-                    gradeColor,
-                    gradeIcon,
-                    gradeType,
-                    breakdown,
-                    rejectionFactors,
-                    warnings
+                return { 
+                    score, maxScore, grade, gradeClass, gradeColor, gradeIcon, gradeType, 
+                    breakdown, rejectionFactors, goodFactors, unfilledFactors,
+                    potentialScore: calculatePotentialScore(values, poiScores)
                 };
             }
 
-            // ---- Main validation ----
-            function validateTrade() {
-                const biasCleared = htfBiasClearedSelect.value === 'CLEARED';
-                const biasUncleared = htfBiasClearedSelect.value === 'UNCLEARED';
-                const noSelection = !htfBiasClearedSelect.value;
-
-                if (noSelection) {
-                    showPendingResult('Select Bias Status', 'Choose "CLEARED" or "UNCLEARED" for HTF Bias');
-                    return;
-                }
-
-                if (biasUncleared) {
-                    showGradeOnlyResult({
-                        score: 0,
-                        maxScore: 100,
-                        grade: 'F',
-                        gradeClass: 'grade-f',
-                        gradeColor: '#ef4444',
-                        gradeIcon: 'fa-times-circle',
-                        gradeType: 'bad',
-                        breakdown: { biasAlignment: 0, poiQuality: 0, confirmationFactors: 0, bonusPoints: 0,
-                            penalties: 0 },
-                        rejectionFactors: ['HTF Bias Uncleared'],
-                        warnings: ['Bias not cleared - no trade recommended']
-                    }, 'UNCLEARED');
-                    return;
-                }
-
-                // BIAS CLEARED: proceed with full validation
-                const htfBiasVal = htfBiasSelect?.value || '';
-                const premiumDiscountVal = premiumDiscountSelect?.value || '';
-
-                const values = {
-                    htfBias: htfBiasVal,
-                    premiumDiscount: premiumDiscountVal,
-                    htfPoi: htfPoiSelect?.value || '',
-                    displacement: displacementSelect?.value || '',
-                    rejection: rejectionSelect?.value || '',
-                    liqSweep: liqSweepSelect?.value || '',
-                    smt: smtSelect?.value || '',
-                    candleClose: candleCloseSelect?.value || ''
-                };
-
-                updateBiasDisplay(values);
-
-                const requiredFields = [values.htfBias, values.premiumDiscount, values.htfPoi, values.displacement,
-                    values.rejection, values.liqSweep, values.smt, values.candleClose
-                ];
-                const allRequiredFilled = requiredFields.every(v => v !== '' && v !== null);
-
-                if (!allRequiredFilled) {
-                    showPendingResult('Complete Checklist', 'Fill all required fields to get trade grade');
-                    return;
-                }
-
-                // Calculate grade
-                const gradeResult = calculateGrade(values);
-
-                // Show grade result
-                showGradeOnlyResult(gradeResult, values.htfBias);
+            // Calculate potential max score if all unfilled were YES
+            function calculatePotentialScore(values, poiScores) {
+                let potential = 0;
+                if (values.htfBias && values.premiumDiscount && values.htfBias === values.premiumDiscount) potential += 30;
+                else if (!values.htfBias || !values.premiumDiscount) potential += 30; // could be aligned
+                
+                if (values.htfPoi && poiScores[values.htfPoi]) potential += poiScores[values.htfPoi];
+                else potential += 20; // best case FVG
+                
+                const confirmFields = [values.displacement, values.rejection, values.liqSweep, values.smt, values.candleClose];
+                const yesCount = confirmFields.filter(v => v === 'YES').length;
+                const emptyCount = confirmFields.filter(v => v === '').length;
+                potential += (yesCount * 10) + (emptyCount * 10);
+                
+                return Math.min(100, potential);
             }
 
+            // Show pending state
             function showPendingResult(title, details) {
                 if (!validationResult) return;
                 validationResult.className = 'validation-result validation-pending';
                 validationResult.innerHTML = `
                     <div class="validation-content">
-                        <div class="validation-icon"><i class="fas fa-clipboard"></i></div>
+                        <div class="validation-icon"><i class="fas fa-hourglass-half"></i></div>
                         <div class="validation-title">${title}</div>
                         <div class="validation-details">${details}</div>
                     </div>
                 `;
             }
 
-            function showGradeOnlyResult(gradeResult, direction) {
+            // Show F grade for mismatch/uncleared
+            function showTradeGradeF(reason, detail) {
                 if (!validationResult) return;
+                validationResult.className = 'validation-result validation-bad';
+                validationResult.innerHTML = `
+                    <div class="trade-grade-f-display">
+                        <div class="validation-icon">
+                            <i class="fas fa-times-circle" style="color: #ef4444; font-size: 3rem;"></i>
+                        </div>
+                        <div class="big-f-letter">F</div>
+                        <div class="trade-grade-f-label">TRADE GRADE F</div>
+                        <div class="mismatch-reason">
+                            <i class="fas fa-exclamation-triangle"></i> ${reason}
+                        </div>
+                        <div class="validation-details" style="color: #f87171; margin-top: 5px;">${detail}</div>
+                        <div class="zero-scores-row">
+                            <div class="zero-score-box"><i class="fas fa-bullseye"></i> Score <span>0/100</span></div>
+                            <div class="zero-score-box"><i class="fas fa-balance-scale"></i> Bias <span>0/30</span></div>
+                            <div class="zero-score-box"><i class="fas fa-crosshairs"></i> POI <span>0/20</span></div>
+                            <div class="zero-score-box"><i class="fas fa-check-double"></i> Factors <span>0/50</span></div>
+                        </div>
+                    </div>
+                `;
+            }
 
-                validationResult.className =
-                    `validation-result ${gradeResult.gradeType === 'good' ? 'validation-good' : 'validation-bad'}`;
+            // Show dynamic grade result
+            function showDynamicGradeResult(gradeResult, values, filledFields, totalFields) {
+                if (!validationResult) return;
+                
+                const isComplete = filledFields === totalFields;
+                validationResult.className = `validation-result ${gradeResult.gradeType === 'good' ? 'validation-good' : 'validation-bad'}`;
 
                 let rejectionHTML = '';
                 if (gradeResult.rejectionFactors.length > 0) {
                     rejectionHTML = `
                         <div class="rejection-list">
                             <i class="fas fa-exclamation-triangle"></i> 
-                            Issues: ${gradeResult.rejectionFactors.join(', ')}
+                            NO: ${gradeResult.rejectionFactors.join(', ')}
                         </div>
                     `;
                 }
 
-                let warningsHTML = '';
-                if (gradeResult.warnings.length > 0) {
-                    warningsHTML = `
-                        <div class="rejection-list" style="background: rgba(251, 191, 36, 0.1); color: #fbbf24;">
-                            <i class="fas fa-info-circle"></i> 
-                            ${gradeResult.warnings.join(', ')}
+                let goodFactorsHTML = '';
+                if (gradeResult.goodFactors && gradeResult.goodFactors.length > 0) {
+                    goodFactorsHTML = `
+                        <div style="margin-top: 8px; padding: 8px 12px; background: rgba(16, 185, 129, 0.1); border-radius: 6px; font-size: 0.85rem; color: #6ee7b7; display: inline-block;">
+                            <i class="fas fa-check"></i> 
+                            YES: ${gradeResult.goodFactors.join(', ')}
+                        </div>
+                    `;
+                }
+
+                let unfilledHTML = '';
+                if (gradeResult.unfilledFactors && gradeResult.unfilledFactors.length > 0 && !isComplete) {
+                    unfilledHTML = `
+                        <div class="partial-grade-info">
+                            <i class="fas fa-edit"></i> 
+                            Pending: ${gradeResult.unfilledFactors.join(', ')} 
+                            (Potential: ${gradeResult.potentialScore}/100)
                         </div>
                     `;
                 }
 
                 const descriptions = {
-                    'A+': 'PERFECT SETUP! All factors aligned optimally.',
-                    'A': 'Excellent setup. High probability trade.',
-                    'B': 'Good setup. Manageable risk.',
-                    'C': 'Acceptable setup. Proceed with caution.',
-                    'F': 'Weak setup. Consider skipping this trade.'
+                    'A+': '🌟 PERFECT SETUP! All factors aligned optimally.',
+                    'A': '✅ Excellent setup. High probability trade.',
+                    'B': '👍 Good setup. Manageable risk.',
+                    'C': '⚠️ Acceptable setup. Proceed with caution.',
+                    'F': '❌ FAILED SETUP. Do not take this trade.'
                 };
+
+                const poiName = values.htfPoi || 'Not selected';
+                const progressText = isComplete ? '✅ Complete' : `📝 ${filledFields}/${totalFields} fields`;
 
                 validationResult.innerHTML = `
                     <div class="validation-content">
@@ -932,109 +1079,84 @@
                             <i class="fas ${gradeResult.gradeIcon}" style="color: ${gradeResult.gradeColor}"></i>
                         </div>
                         <div class="validation-title" style="color: ${gradeResult.gradeColor}">
-                            Trade Grade
+                            Trade Grade: <span class="grade-badge ${gradeResult.gradeClass}">${gradeResult.grade}</span>
                         </div>
-                        <span class="grade-badge ${gradeResult.gradeClass}">${gradeResult.grade}</span>
+                        <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px;">${progressText}</div>
                         <div class="score-breakdown">
-                            <div class="score-item">
-                                <i class="fas fa-bullseye"></i> Score 
-                                <span>${gradeResult.score}/${gradeResult.maxScore}</span>
-                            </div>
-                            <div class="score-item">
+                            <div class="score-item ${gradeResult.breakdown.biasAlignment === 30 ? 'highlight' : ''}">
                                 <i class="fas fa-balance-scale"></i> Bias 
                                 <span>${gradeResult.breakdown.biasAlignment}/30</span>
                             </div>
-                            <div class="score-item">
-                                <i class="fas fa-crosshairs"></i> POI 
+                            <div class="score-item ${gradeResult.breakdown.poiQuality >= 18 ? 'highlight' : ''}">
+                                <i class="fas fa-crosshairs"></i> POI (${poiName})
                                 <span>${gradeResult.breakdown.poiQuality}/20</span>
                             </div>
-                            <div class="score-item">
+                            <div class="score-item ${gradeResult.breakdown.confirmationFactors === 50 ? 'highlight' : ''}">
                                 <i class="fas fa-check-double"></i> Factors 
                                 <span>${gradeResult.breakdown.confirmationFactors}/50</span>
                             </div>
-                            ${gradeResult.breakdown.bonusPoints > 0 ? `
                             <div class="score-item">
-                                <i class="fas fa-gem"></i> Bonus 
-                                <span>+${gradeResult.breakdown.bonusPoints}</span>
-                            </div>` : ''}
-                            ${gradeResult.breakdown.penalties > 0 ? `
-                            <div class="score-item">
-                                <i class="fas fa-minus-circle"></i> Penalty 
-                                <span>-${gradeResult.breakdown.penalties}</span>
-                            </div>` : ''}
+                                <i class="fas fa-bullseye"></i> Total 
+                                <span>${gradeResult.score}/${gradeResult.maxScore}</span>
+                            </div>
+                            ${gradeResult.breakdown.bonusPoints > 0 ? 
+                                `<div class="score-item highlight"><i class="fas fa-gem"></i> Bonus <span>+${gradeResult.breakdown.bonusPoints}</span></div>` : ''}
+                            ${gradeResult.breakdown.penalties > 0 ? 
+                                `<div class="score-item"><i class="fas fa-minus-circle"></i> Penalty <span>-${gradeResult.breakdown.penalties}</span></div>` : ''}
                         </div>
+                        ${goodFactorsHTML}
                         ${rejectionHTML}
-                        ${warningsHTML}
+                        ${unfilledHTML}
                         <div class="validation-details" style="margin-top: 12px;">
-                            ${direction && direction !== 'UNCLEARED' ? direction + ' setup' : 'No direction'} | 
-                            ${descriptions[gradeResult.grade] || 'Review setup carefully'}
+                            ${values.htfBias || '?'} setup at ${poiName} | 
+                            ${isComplete ? descriptions[gradeResult.grade] : 'Keep selecting to see final grade'}
                         </div>
                     </div>
                 `;
             }
 
+            // Reset everything
             function resetChecklist() {
-                const allSelects = [
-                    htfBiasClearedSelect,
-                    htfBiasSelect,
-                    premiumDiscountSelect,
-                    htfPoiSelect,
-                    displacementSelect,
-                    rejectionSelect,
-                    liqSweepSelect,
-                    smtSelect,
-                    candleCloseSelect
-                ];
-                allSelects.forEach(select => {
-                    if (select) select.value = '';
+                const allSelects = [htfBiasClearedSelect, htfBiasSelect, premiumDiscountSelect, htfPoiSelect, displacementSelect, rejectionSelect, liqSweepSelect, smtSelect, candleCloseSelect];
+                allSelects.forEach(select => { if (select) select.value = ''; });
+                
+                document.querySelectorAll('.yes-no-select').forEach(s => {
+                    s.classList.remove('yes-selected', 'no-selected');
                 });
-
-                if (biasDetailsSection) {
-                    biasDetailsSection.classList.add('hidden-section');
-                    biasDetailsSection.classList.remove('visible-section');
-                }
+                
+                if (biasDetailsSection) { biasDetailsSection.classList.add('hidden-section'); biasDetailsSection.classList.remove('visible-section'); }
                 if (unclearedBiasMsg) unclearedBiasMsg.classList.add('hidden-section');
-                if (confirmationFieldsContainer) {
-                    confirmationFieldsContainer.classList.add('hidden-section');
-                    confirmationFieldsContainer.classList.remove('visible-section');
-                }
-                if (confirmationCard) {
-                    confirmationCard.classList.add('confirmation-card-hidden');
-                    confirmationCard.classList.remove('confirmation-card-visible');
-                }
-
+                if (biasMismatchMsg) biasMismatchMsg.classList.add('hidden-section');
+                if (confirmationFieldsContainer) { confirmationFieldsContainer.classList.add('hidden-section'); confirmationFieldsContainer.classList.remove('visible-section'); }
+                if (confirmationDisabledMsg) confirmationDisabledMsg.classList.add('hidden-section');
+                if (confirmationCard) { confirmationCard.classList.add('confirmation-card-hidden'); confirmationCard.classList.remove('confirmation-card-visible'); }
                 if (htfBiasValue) htfBiasValue.textContent = '-';
                 if (premiumDiscountValue) premiumDiscountValue.textContent = '-';
                 if (biasIndicator) biasIndicator.className = 'bias-indicator';
-
-                showPendingResult('Complete Checklist', 'Fill all fields above to get trade grade');
+                if (yesCounter) { yesCounter.textContent = '0/5 YES'; yesCounter.style.color = '#94a3b8'; }
+                
+                showPendingResult('Start Selecting', 'Grade calculates dynamically with every selection');
             }
 
-            // Event Listeners
-            if (htfBiasClearedSelect) {
-                htfBiasClearedSelect.addEventListener('change', toggleAllSections);
-            }
-
-            const watchSelects = [
-                htfBiasSelect, premiumDiscountSelect, htfPoiSelect,
-                displacementSelect, rejectionSelect, liqSweepSelect,
-                smtSelect, candleCloseSelect
-            ];
-            watchSelects.forEach(select => {
-                if (select) select.addEventListener('change', validateTrade);
+            // DYNAMIC EVENT LISTENERS
+            const allSelects = [htfBiasClearedSelect, htfBiasSelect, premiumDiscountSelect, htfPoiSelect, displacementSelect, rejectionSelect, liqSweepSelect, smtSelect, candleCloseSelect];
+            allSelects.forEach(select => {
+                if (select) {
+                    select.addEventListener('change', dynamicValidate);
+                }
             });
 
-            if (resetBtn) {
-                resetBtn.addEventListener('click', resetChecklist);
-            }
+            if (resetBtn) resetBtn.addEventListener('click', resetChecklist);
 
             // Initial state
             if (biasDetailsSection) biasDetailsSection.classList.add('hidden-section');
             if (unclearedBiasMsg) unclearedBiasMsg.classList.add('hidden-section');
+            if (biasMismatchMsg) biasMismatchMsg.classList.add('hidden-section');
             if (confirmationFieldsContainer) confirmationFieldsContainer.classList.add('hidden-section');
+            if (confirmationDisabledMsg) confirmationDisabledMsg.classList.add('hidden-section');
             if (confirmationCard) confirmationCard.classList.add('confirmation-card-hidden');
-
-            showPendingResult('Complete Checklist', 'Fill all fields above to get trade grade');
+            
+            showPendingResult('Start Selecting', 'Select options - Grade updates dynamically on every change');
         })();
     </script>
 </body>

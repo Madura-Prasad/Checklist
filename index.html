@@ -857,7 +857,7 @@
 
                 // UNCLEARED = F
                 if (clearedValue === 'UNCLEARED') {
-                    showTradeGradeF('BIAS UNCLEARED', 'Select "CLEARED" in Market Bias to proceed.');
+                    showTradeGradeF('BIAS UNCLEARED', '');
                     return;
                 }
 
@@ -898,7 +898,7 @@
                     breakdown.biasAlignment = 30;
                     score += 30;
                 } else if (values.htfBias && values.premiumDiscount && values.htfBias !== values.premiumDiscount) {
-                    // Mismatched - handled before this function, but just in case
+                    // Mismatched - handled before this function, but just in cae
                     breakdown.biasAlignment = 0;
                 } else if (!values.htfBias || !values.premiumDiscount) {
                     // Not filled yet

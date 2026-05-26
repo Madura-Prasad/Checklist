@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trading Checklist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Trading Checklist | HTF Bias Cleared</title>
     <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -20,10 +20,14 @@
             color: #e2e8f0;
             min-height: 100vh;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 950px;
+            width: 100%;
             margin: 0 auto;
         }
 
@@ -59,6 +63,14 @@
             .checklist-grid {
                 grid-template-columns: 1fr;
             }
+
+            body {
+                padding: 12px;
+            }
+
+            header h1 {
+                font-size: 1.6rem;
+            }
         }
 
         .checklist-card {
@@ -66,13 +78,14 @@
             border-radius: 10px;
             padding: 20px;
             border: 1px solid #334155;
+            transition: all 0.2s ease;
         }
 
         .card-title {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
             border-bottom: 1px solid #334155;
         }
 
@@ -85,13 +98,14 @@
         .card-title h2 {
             font-size: 1.3rem;
             color: #f1f5f9;
+            font-weight: 600;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         @media (max-width: 480px) {
@@ -110,6 +124,7 @@
             color: #cbd5e1;
             font-size: 0.9rem;
             font-weight: 500;
+            letter-spacing: 0.3px;
         }
 
         select {
@@ -121,31 +136,39 @@
             border-radius: 6px;
             font-size: 0.9rem;
             cursor: pointer;
+            transition: border 0.2s, background 0.2s;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%2394a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 14px;
         }
 
         select:focus {
             outline: none;
             border-color: #8b5cf6;
+            background-color: #2d3a4f;
         }
 
         .bias-indicator {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             background: #2d3748;
             border-radius: 8px;
             padding: 12px;
             border: 2px solid transparent;
+            transition: border-color 0.2s, background-color 0.2s;
         }
 
         .bias-indicator.good {
             border-color: #10b981;
-            background-color: rgba(16, 185, 129, 0.1);
+            background-color: rgba(16, 185, 129, 0.08);
         }
 
         .bias-indicator.bad {
             border-color: #ef4444;
-            background-color: rgba(239, 68, 68, 0.1);
+            background-color: rgba(239, 68, 68, 0.08);
         }
 
         .bias-item {
@@ -154,21 +177,51 @@
         }
 
         .bias-item h3 {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #94a3b8;
             margin-bottom: 5px;
+            letter-spacing: 0.4px;
         }
 
         .bias-value {
             font-size: 1rem;
             font-weight: 700;
+            color: #f1f5f9;
+        }
+
+        /* Toggle visibility classes */
+        .hidden-section {
+            display: none !important;
+        }
+
+        .visible-section {
+            display: block;
+        }
+
+        .conditional-fields {
+            margin-top: 8px;
+            border-top: 1px dashed #334155;
+            padding-top: 15px;
+            transition: all 0.2s ease;
+        }
+
+        /* Confirmation card visibility */
+        .confirmation-card-hidden {
+            opacity: 0.4;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .confirmation-card-visible {
+            opacity: 1;
+            pointer-events: auto;
+            user-select: auto;
         }
 
         .validation-container {
             background-color: #1e293b;
             border-radius: 10px;
             padding: 20px;
-            margin-top: 20px;
             border: 1px solid #334155;
         }
 
@@ -176,100 +229,116 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         .validation-header h2 {
             font-size: 1.3rem;
             color: #f1f5f9;
+            font-weight: 600;
         }
 
         .reset-btn {
             background: #334155;
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 8px 16px;
             border-radius: 6px;
             font-size: 0.9rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            transition: background 0.2s;
+            font-weight: 500;
         }
 
         .reset-btn:hover {
             background: #475569;
         }
 
-        /* Validation */
-        .validation-container {
-            background-color: #1e293b;
-            border-radius: 10px;
-            padding: 20px;
-            border: 1px solid #334155;
-        }
-
-        .validation-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .reset-btn {
-            background: #334155;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            color: white;
-        }
-
         .validation-result {
-            padding: 20px;
-            border-radius: 8px;
+            padding: 22px;
+            border-radius: 10px;
             text-align: center;
             min-height: 120px;
             border: 2px dashed #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
         }
 
         .validation-good {
             border: 2px solid #10b981;
-            background-color: rgba(34, 197, 94, 0.1);
+            background-color: rgba(34, 197, 94, 0.08);
         }
 
         .validation-bad {
             border: 2px solid #ef4444;
-            background-color: rgba(239, 68, 68, 0.1);
+            background-color: rgba(239, 68, 68, 0.08);
         }
 
-        @media (max-width: 768px) {
-            body {
-                padding: 12px;
-            }
+        .validation-pending {
+            border: 2px dashed #475569;
+        }
 
-            header h1 {
-                font-size: 1.6rem;
-            }
+        .validation-content {
+            width: 100%;
+        }
 
-            .checklist-card {
-                padding: 15px;
-            }
+        .validation-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .validation-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .validation-details {
+            color: #cbd5e1;
+            font-size: 0.95rem;
         }
 
         .warning-message {
-            background-color: rgba(245, 158, 11, 0.1);
+            background-color: rgba(245, 158, 11, 0.12);
             border-left: 4px solid #f59e0b;
             padding: 12px;
             margin-top: 15px;
             border-radius: 0 6px 6px 0;
             display: none;
+            align-items: center;
+            gap: 10px;
         }
 
         .warning-message p {
             color: #fbbf24;
             font-weight: 500;
             font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .quote-card {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border: 1px solid #334155;
+        }
+
+        .quote-card ul {
+            padding-left: 22px;
+            margin: 0;
+        }
+
+        .quote-card li {
+            color: #f87171;
+            font-style: italic;
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
         .checklist-footer {
@@ -281,23 +350,22 @@
             font-size: 0.8rem;
         }
 
-        /* Quote Section */
-        .quote-card {
+        .select-hint {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .uncleared-message {
             background: #1e293b;
-            border-radius: 10px;
-            padding: 18px;
-            margin-bottom: 20px;
-            border: 1px solid #334155;
-        }
-
-        .quote-card ul {
-            padding-left: 20px;
-        }
-
-        .quote-card li {
-            color: #ff5c5c;
-            font-style: italic;
-            margin-bottom: 10px;
+            border-radius: 8px;
+            padding: 12px;
+            color: #f87171;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -306,7 +374,9 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-clipboard-check"></i> Checklist</h1>
+            <p>HTF Bias • Confirmation • Validation</p>
         </header>
+
         <!-- Quote Section -->
         <div class="quote-card">
             <ul>
@@ -316,112 +386,134 @@
         </div>
 
         <div class="checklist-grid">
-            <!-- Left Column -->
+            <!-- Left Column: Market Bias (with HTF Cleared toggle) -->
             <div class="checklist-card">
                 <div class="card-title">
                     <i class="fas fa-chart-line"></i>
                     <h2>Market Bias</h2>
                 </div>
 
-                <div class="bias-indicator" id="bias-indicator">
-                    <div class="bias-item">
-                        <h3>HTF BIAS</h3>
-                        <div class="bias-value" id="htf-bias-value">-</div>
+                <!-- HTF Bias Cleared dropdown -->
+                <div class="form-group">
+                    <label for="htf-bias-cleared"><i class="fas fa-broom"></i> HTF Bias Cleared?</label>
+                    <select id="htf-bias-cleared">
+                        <option value="">Select</option>
+                        <option value="CLEARED">CLEARED</option>
+                        <option value="UNCLEARED">UNCLEARED</option>
+                    </select>
+                </div>
+
+                <!-- Conditional bias fields (hidden by default, shown if CLEARED) -->
+                <div id="bias-details-section" class="conditional-fields hidden-section">
+                    <div class="bias-indicator" id="bias-indicator">
+                        <div class="bias-item">
+                            <h3>HTF BIAS</h3>
+                            <div class="bias-value" id="htf-bias-value">-</div>
+                        </div>
+                        <div class="bias-item">
+                            <h3>PREMIUM/DISCOUNT</h3>
+                            <div class="bias-value" id="premium-discount-value">-</div>
+                        </div>
                     </div>
-                    <div class="bias-item">
-                        <h3>PREMIUM/DISCOUNT</h3>
-                        <div class="bias-value" id="premium-discount-value">-</div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="htf-bias">HTF BIAS</label>
+                            <select id="htf-bias">
+                                <option value="">Select</option>
+                                <option value="BUY">BUY</option>
+                                <option value="SELL">SELL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="premium-discount">Premium/Discount</label>
+                            <select id="premium-discount">
+                                <option value="">Select</option>
+                                <option value="BUY">BUY</option>
+                                <option value="SELL">SELL</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="htf-bias">HTF BIAS</label>
-                        <select id="htf-bias">
-                            <option value="">Select</option>
-                            <option value="BUY">BUY</option>
-                            <option value="SELL">SELL</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="premium-discount">Premium/Discount</label>
-                        <select id="premium-discount">
-                            <option value="">Select</option>
-                            <option value="BUY">BUY</option>
-                            <option value="SELL">SELL</option>
-                        </select>
-                    </div>
+                <!-- Message when UNCLEARED -->
+                <div id="uncleared-bias-msg" class="uncleared-message hidden-section">
+                    <i class="fas fa-eye-slash"></i> Bias not cleared. Confirmation factors disabled.
                 </div>
-
             </div>
 
-            <!-- Right Column -->
-            <div class="checklist-card">
+            <!-- Right Column: Confirmation Factors (visibility controlled by bias cleared) -->
+            <div class="checklist-card" id="confirmation-card">
                 <div class="card-title">
                     <i class="fas fa-filter"></i>
                     <h2>Confirmation Factors</h2>
                 </div>
 
-                <div class="form-group">
-                    <label for="htf-poi">HTF POI</label>
-                    <select id="htf-poi">
-                        <option value="">Select</option>
-                        <option value="FVG">FVG</option>
-                        <option value="OB">OB</option>
-                        <option value="BB">BB</option>
-                        <option value="IFVG">IFVG</option>
-                    </select>
-                </div>
-                <div class="form-row">
+                <div id="confirmation-fields-container">
                     <div class="form-group">
-                        <label for="liq-sweep">Liquidity Sweep</label>
-                        <select id="liq-sweep">
+                        <label for="htf-poi">HTF POI</label>
+                        <select id="htf-poi">
                             <option value="">Select</option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="candle-close">Candle Close on MSS (HTF PD Array Rejection)</label>
-                        <select id="candle-close">
-                            <option value="">Select</option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
+                            <option value="FVG">FVG</option>
+                            <option value="OB">OB</option>
+                            <option value="BB">BB</option>
+                            <option value="IFVG">IFVG</option>
                         </select>
                     </div>
 
-
-                    <div class="form-group">
-                        <label for="displacement">Displacement</label>
-                        <select id="displacement">
-                            <option value="">Select</option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="liq-sweep">Liquidity Sweep</label>
+                            <select id="liq-sweep">
+                                <option value="">Select</option>
+                                <option value="YES">YES</option>
+                                <option value="NO">NO</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="candle-close">Candle Close MSS</label>
+                            <select id="candle-close">
+                                <option value="">Select</option>
+                                <option value="YES">YES</option>
+                                <option value="NO">NO</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="rejection">FVG</label>
-                        <select id="rejection">
-                            <option value="">Select</option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="smt">SMT</label>
-                        <select id="smt">
-                            <option value="">Select</option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="displacement">Displacement</label>
+                            <select id="displacement">
+                                <option value="">Select</option>
+                                <option value="YES">YES</option>
+                                <option value="NO">NO</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="rejection">FVG</label>
+                            <select id="rejection">
+                                <option value="">Select</option>
+                                <option value="YES">YES</option>
+                                <option value="NO">NO</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
 
-                <div class="warning-message" id="no-entry-warning">
-                    <p><i class="fas fa-exclamation-triangle"></i> Warning: One or more factors indicate NO ENTRY</p>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="smt">SMT</label>
+                            <select id="smt">
+                                <option value="">Select</option>
+                                <option value="YES">YES</option>
+                                <option value="NO">NO</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="warning-message" id="no-entry-warning">
+                        <p><i class="fas fa-exclamation-triangle"></i> Warning: One or more factors indicate NO ENTRY
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -429,225 +521,306 @@
         <!-- Validation Result -->
         <div class="validation-container">
             <div class="validation-header">
-                <h2>Trade Validation</h2> <button class="reset-btn" id="reset-btn"> <i class="fas fa-redo-alt"></i> Reset All </button>
+                <h2>Trade Validation</h2>
+                <button class="reset-btn" id="reset-btn"> <i class="fas fa-redo-alt"></i> Reset All </button>
             </div>
             <div class="validation-result validation-pending" id="validation-result">
                 <div class="validation-content">
+                    <div class="validation-icon"><i class="fas fa-clipboard"></i></div>
                     <div class="validation-title">Complete Checklist</div>
                     <div class="validation-details">Fill all fields above to validate trade setup</div>
                 </div>
             </div>
         </div>
+        <div class="checklist-footer">
+            <i class="fas fa-shield-alt"></i> Discipline over emotion
+        </div>
     </div>
 
     <script>
-        // DOM Elements
-        const htfBiasSelect = document.getElementById('htf-bias');
-        const premiumDiscountSelect = document.getElementById('premium-discount');
-        const htfPoiSelect = document.getElementById('htf-poi');
-        const displacementSelect = document.getElementById('displacement');
-        const rejectionSelect = document.getElementById('rejection');
-        const liqSweepSelect = document.getElementById('liq-sweep');
-        const smtSelect = document.getElementById('smt');
-        const candleCloseSelect = document.getElementById('candle-close');
-        const oteSelect = document.getElementById('ote');
+        (function () {
+            // DOM Elements
+            const htfBiasClearedSelect = document.getElementById('htf-bias-cleared');
+            const biasDetailsSection = document.getElementById('bias-details-section');
+            const unclearedBiasMsg = document.getElementById('uncleared-bias-msg');
 
-        // Display elements
-        const htfBiasValue = document.getElementById('htf-bias-value');
-        const premiumDiscountValue = document.getElementById('premium-discount-value');
-        const biasIndicator = document.getElementById('bias-indicator');
-        const noEntryWarning = document.getElementById('no-entry-warning');
-        const validationResult = document.getElementById('validation-result');
-        const resetBtn = document.getElementById('reset-btn');
+            const confirmationCard = document.getElementById('confirmation-card');
+            const confirmationFieldsContainer = document.getElementById('confirmation-fields-container');
+            const confirmationDisabledMsg = document.getElementById('confirmation-disabled-msg');
 
-        // Initialize event listeners
-        function init() {
-            // Add change listeners to all selects
-            const allSelects = [
-                htfBiasSelect, premiumDiscountSelect,
-                htfPoiSelect, displacementSelect, rejectionSelect,
-                liqSweepSelect, smtSelect, candleCloseSelect
-            ];
+            const htfBiasSelect = document.getElementById('htf-bias');
+            const premiumDiscountSelect = document.getElementById('premium-discount');
+            const htfPoiSelect = document.getElementById('htf-poi');
+            const displacementSelect = document.getElementById('displacement');
+            const rejectionSelect = document.getElementById('rejection');
+            const liqSweepSelect = document.getElementById('liq-sweep');
+            const smtSelect = document.getElementById('smt');
+            const candleCloseSelect = document.getElementById('candle-close');
 
-            allSelects.forEach(select => {
-                select.addEventListener('change', validateTrade);
-            });
+            // Display elements
+            const htfBiasValue = document.getElementById('htf-bias-value');
+            const premiumDiscountValue = document.getElementById('premium-discount-value');
+            const biasIndicator = document.getElementById('bias-indicator');
+            const noEntryWarning = document.getElementById('no-entry-warning');
+            const validationResult = document.getElementById('validation-result');
+            const resetBtn = document.getElementById('reset-btn');
 
-            // Reset button
-            resetBtn.addEventListener('click', resetChecklist);
+            // ---- Toggle visibility based on HTF Bias Cleared ----
+            function toggleAllSections() {
+                const clearedValue = htfBiasClearedSelect.value;
 
-            // Initialize with sample data (optional - remove for production)
+                if (clearedValue === 'CLEARED') {
+                    // Show bias details, hide uncleared message
+                    biasDetailsSection.classList.remove('hidden-section');
+                    biasDetailsSection.classList.add('visible-section');
+                    if (unclearedBiasMsg) unclearedBiasMsg.classList.add('hidden-section');
 
-        }
+                    // Show confirmation fields, hide disabled message
+                    if (confirmationFieldsContainer) {
+                        confirmationFieldsContainer.classList.remove('hidden-section');
+                        confirmationFieldsContainer.classList.add('visible-section');
+                    }
+                    if (confirmationDisabledMsg) confirmationDisabledMsg.classList.add('hidden-section');
+                    if (confirmationCard) {
+                        confirmationCard.classList.remove('confirmation-card-hidden');
+                        confirmationCard.classList.add('confirmation-card-visible');
+                    }
+                } else if (clearedValue === 'UNCLEARED') {
+                    // Hide bias details, show uncleared message
+                    biasDetailsSection.classList.add('hidden-section');
+                    biasDetailsSection.classList.remove('visible-section');
+                    if (unclearedBiasMsg) unclearedBiasMsg.classList.remove('hidden-section');
 
-        // Main validation function
-        function validateTrade() {
-            // Get all values
-            const values = {
-                htfBias: htfBiasSelect.value,
-                premiumDiscount: premiumDiscountSelect.value,
-                htfPoi: htfPoiSelect.value,
-                displacement: displacementSelect.value,
-                rejection: rejectionSelect.value,
-                liqSweep: liqSweepSelect.value,
-                smt: smtSelect.value,
-                candleClose: candleCloseSelect.value
-            };
+                    // Hide confirmation fields, show disabled message
+                    if (confirmationFieldsContainer) {
+                        confirmationFieldsContainer.classList.add('hidden-section');
+                        confirmationFieldsContainer.classList.remove('visible-section');
+                    }
+                    if (confirmationDisabledMsg) confirmationDisabledMsg.classList.remove('hidden-section');
+                    if (confirmationCard) {
+                        confirmationCard.classList.add('confirmation-card-hidden');
+                        confirmationCard.classList.remove('confirmation-card-visible');
+                    }
 
-            // Update bias indicator display
-            updateBiasDisplay(values);
+                    // Reset bias selects when hiding
+                    if (htfBiasSelect) htfBiasSelect.value = '';
+                    if (premiumDiscountSelect) premiumDiscountSelect.value = '';
+                    // Also reset confirmation selects to avoid stale validation
+                    resetConfirmationFields();
+                } else {
+                    // Empty selection: hide everything, show prompts
+                    biasDetailsSection.classList.add('hidden-section');
+                    biasDetailsSection.classList.remove('visible-section');
+                    if (unclearedBiasMsg) unclearedBiasMsg.classList.add('hidden-section');
 
-            // Check if all fields are filled
-            const allFilled = Object.values(values).every(value => value !== '');
+                    if (confirmationFieldsContainer) {
+                        confirmationFieldsContainer.classList.add('hidden-section');
+                        confirmationFieldsContainer.classList.remove('visible-section');
+                    }
+                    if (confirmationDisabledMsg) confirmationDisabledMsg.classList.add('hidden-section');
+                    if (confirmationCard) {
+                        confirmationCard.classList.add('confirmation-card-hidden');
+                        confirmationCard.classList.remove('confirmation-card-visible');
+                    }
 
-            if (!allFilled) {
-                showResult('pending', 'Complete Checklist', 'Fill all fields above to validate trade setup');
-                noEntryWarning.style.display = 'none';
-                return;
-            }
-
-            // Check for NO entries - CRITICAL FIX: Changed from checking for "NO" to checking ALL must be "YES"
-            const noEntryFactors = [
-                values.displacement,
-                values.rejection,
-                values.liqSweep,
-                values.smt,
-                values.candleClose
-            ].filter(value => value === 'NO');
-
-            // Check bias alignment
-            const biasAligned = values.htfBias === values.premiumDiscount;
-
-            // NEW: Check if ALL YES/NO factors are "YES" (not just not "NO")
-            const allYesFactors = [
-                values.displacement,
-                values.rejection,
-                values.liqSweep,
-                values.smt,
-                values.candleClose
-            ].every(value => value === 'YES');
-
-            // Determine validation result - UPDATED LOGIC
-            if (noEntryFactors.length > 0) {
-                // At least one factor is "NO"
-                const factorNames = getFactorNames(noEntryFactors, values);
-                showResult('bad', 'NO TRADE CONFIRMATION',
-                    `${noEntryFactors.length} rejection factor(s): ${factorNames}`);
-                noEntryWarning.style.display = 'block';
-            } else if (!allYesFactors) {
-                // Not all factors are "YES" (some might be empty or other values)
-                showResult('bad', 'INCOMPLETE SETUP',
-                    'All confirmation factors must be set to YES');
-                noEntryWarning.style.display = 'none';
-            } else if (!biasAligned) {
-                // Bias mismatch
-                showResult('bad', 'BIAS MISMATCH',
-                    'HTF BIAS, Premium/Discount, and BIAS AI do not align');
-                noEntryWarning.style.display = 'none';
-            } else if (!values.htfPoi) {
-                // No POI selected
-                showResult('bad', 'POI REQUIRED',
-                    'HTF POI must be selected');
-                noEntryWarning.style.display = 'none';
-            } else {
-                // ALL CONDITIONS MET: All biases align, POI selected, ALL factors are YES
-                showResult('good', 'TRADE CONFIRMED',
-                    `All factors aligned for ${values.htfBias} at ${values.htfPoi} POI`);
-                noEntryWarning.style.display = 'none';
-            }
-        }
-
-        // Update bias display
-        function updateBiasDisplay(values) {
-            htfBiasValue.textContent = values.htfBias || '-';
-            premiumDiscountValue.textContent = values.premiumDiscount || '-';
-
-
-            // Check if all bias fields have values
-            const biasFilled = values.htfBias && values.premiumDiscount;
-
-            if (biasFilled) {
-                const biasAligned = values.htfBias === values.premiumDiscount; 
-                biasIndicator.className = biasAligned ? 'bias-indicator good' : 'bias-indicator bad';
-            } else {
-                biasIndicator.className = 'bias-indicator';
-            }
-        }
-
-        // Show validation result
-        function showResult(type, title, details) {
-            const icons = {
-                pending: '',
-                good: 'fa-check-circle',
-                bad: 'fa-times-circle',
-                warning: 'fa-exclamation-triangle'
-            };
-
-            const colors = {
-                pending: 'validation-pending',
-                good: 'validation-good',
-                bad: 'validation-bad',
-                warning: 'validation-warning'
-            };
-
-            validationResult.className = `validation-result ${colors[type]}`;
-            validationResult.innerHTML = `
-                <div class="validation">
-    <div class="validation-icon">
-        <i class="fas ${icons[type]}"></i>
-    </div>
-    <div class="validation-content">
-        <div class="validation-title">${title}</div>
-        <div class="validation-details">${details}</div>
-    </div>
-</div>
-
-            `;
-        }
-
-        // Get factor names for warning message
-        function getFactorNames(noFactors, values) {
-            const factorMap = {
-                displacement: 'Displacement + FVG',
-                rejection: 'Rejection',
-                liqSweep: 'Liquidity Sweep',
-                smt: 'SMT',
-                candleClose: 'Candle Close on MSS'
-            };
-
-            const names = [];
-            Object.keys(factorMap).forEach(key => {
-                if (values[key] === 'NO') {
-                    names.push(factorMap[key]);
+                    if (htfBiasSelect) htfBiasSelect.value = '';
+                    if (premiumDiscountSelect) premiumDiscountSelect.value = '';
+                    resetConfirmationFields();
                 }
-            });
 
-            return names.join(', ');
-        }
+                // Update bias display values
+                if (htfBiasValue) htfBiasValue.textContent = '-';
+                if (premiumDiscountValue) premiumDiscountValue.textContent = '-';
+                if (biasIndicator) biasIndicator.className = 'bias-indicator';
 
-        // Reset checklist
-        function resetChecklist() {
-            const allSelects = [
-                htfBiasSelect, premiumDiscountSelect,
-                htfPoiSelect, displacementSelect, rejectionSelect,
-                liqSweepSelect, smtSelect, candleCloseSelect
+                validateTrade();
+            }
+
+            function resetConfirmationFields() {
+                const confirmSelects = [htfPoiSelect, displacementSelect, rejectionSelect, liqSweepSelect, smtSelect, candleCloseSelect];
+                confirmSelects.forEach(select => {
+                    if (select) select.value = '';
+                });
+            }
+
+            // ---- Update bias indicator display ----
+            function updateBiasDisplay(values) {
+                if (htfBiasValue) htfBiasValue.textContent = values.htfBias || '-';
+                if (premiumDiscountValue) premiumDiscountValue.textContent = values.premiumDiscount || '-';
+
+                if (!biasIndicator) return;
+                const biasFilled = values.htfBias && values.premiumDiscount;
+                if (biasFilled) {
+                    const biasAligned = values.htfBias === values.premiumDiscount;
+                    biasIndicator.className = biasAligned ? 'bias-indicator good' : 'bias-indicator bad';
+                } else {
+                    biasIndicator.className = 'bias-indicator';
+                }
+            }
+
+            // ---- Main validation ----
+            function validateTrade() {
+                const biasCleared = htfBiasClearedSelect.value === 'CLEARED';
+                const biasUncleared = htfBiasClearedSelect.value === 'UNCLEARED';
+                const noSelection = !htfBiasClearedSelect.value;
+
+                if (noSelection) {
+                    showResult('pending', 'Select Bias Status', 'Choose "CLEARED" or "UNCLEARED" for HTF Bias');
+                    if (noEntryWarning) noEntryWarning.style.display = 'none';
+                    return;
+                }
+
+                if (biasUncleared) {
+                    showResult('bad', 'NO TRADE - BIAS UNCLEARED', 'HTF Bias is not cleared. Confirmation factors disabled.');
+                    if (noEntryWarning) noEntryWarning.style.display = 'none';
+                    return;
+                }
+
+                // BIAS CLEARED: proceed with full validation
+                const htfBiasVal = htfBiasSelect?.value || '';
+                const premiumDiscountVal = premiumDiscountSelect?.value || '';
+
+                const values = {
+                    htfBias: htfBiasVal,
+                    premiumDiscount: premiumDiscountVal,
+                    htfPoi: htfPoiSelect?.value || '',
+                    displacement: displacementSelect?.value || '',
+                    rejection: rejectionSelect?.value || '',
+                    liqSweep: liqSweepSelect?.value || '',
+                    smt: smtSelect?.value || '',
+                    candleClose: candleCloseSelect?.value || ''
+                };
+
+                updateBiasDisplay(values);
+
+                const requiredFields = [values.htfBias, values.premiumDiscount, values.htfPoi, values.displacement, values.rejection, values.liqSweep, values.smt, values.candleClose];
+                const allRequiredFilled = requiredFields.every(v => v !== '' && v !== null);
+
+                if (!allRequiredFilled) {
+                    showResult('pending', 'Complete Checklist', 'Fill all required fields to validate trade setup');
+                    if (noEntryWarning) noEntryWarning.style.display = 'none';
+                    return;
+                }
+
+                const yesNoFactors = [values.displacement, values.rejection, values.liqSweep, values.smt, values.candleClose];
+                const noEntryFactors = yesNoFactors.filter(v => v === 'NO');
+                const allYes = yesNoFactors.every(v => v === 'YES');
+                const biasAligned = values.htfBias === values.premiumDiscount;
+
+                if (noEntryFactors.length > 0) {
+                    const factorNames = getFactorNames(values);
+                    showResult('bad', 'NO TRADE CONFIRMATION', `${noEntryFactors.length} rejection factor(s): ${factorNames}`);
+                    if (noEntryWarning) noEntryWarning.style.display = 'block';
+                } else if (!allYes) {
+                    showResult('bad', 'INCOMPLETE SETUP', 'All confirmation factors must be YES');
+                    if (noEntryWarning) noEntryWarning.style.display = 'none';
+                } else if (!biasAligned) {
+                    showResult('bad', 'BIAS MISMATCH', 'HTF BIAS and Premium/Discount do not align');
+                    if (noEntryWarning) noEntryWarning.style.display = 'none';
+                } else if (!values.htfPoi) {
+                    showResult('bad', 'POI REQUIRED', 'HTF POI must be selected');
+                    if (noEntryWarning) noEntryWarning.style.display = 'none';
+                } else {
+                    showResult('good', 'TRADE CONFIRMED', `All factors aligned for ${values.htfBias} at ${values.htfPoi} POI`);
+                    if (noEntryWarning) noEntryWarning.style.display = 'none';
+                }
+            }
+
+            function getFactorNames(values) {
+                const map = {
+                    displacement: 'Displacement',
+                    rejection: 'FVG',
+                    liqSweep: 'Liquidity Sweep',
+                    smt: 'SMT',
+                    candleClose: 'Candle Close MSS'
+                };
+                return Object.entries(map).filter(([key]) => values[key] === 'NO').map(([, name]) => name).join(', ');
+            }
+
+            function showResult(type, title, details) {
+                if (!validationResult) return;
+                const icons = {
+                    pending: 'fa-clipboard',
+                    good: 'fa-check-circle',
+                    bad: 'fa-times-circle'
+                };
+                validationResult.className = `validation-result ${type === 'good' ? 'validation-good' : type === 'bad' ? 'validation-bad' : 'validation-pending'}`;
+                validationResult.innerHTML = `
+          <div class="validation-content">
+            <div class="validation-icon"><i class="fas ${icons[type] || 'fa-clipboard'}"></i></div>
+            <div class="validation-title">${title}</div>
+            <div class="validation-details">${details}</div>
+          </div>
+        `;
+            }
+
+            function resetChecklist() {
+                const allSelects = [
+                    htfBiasClearedSelect,
+                    htfBiasSelect,
+                    premiumDiscountSelect,
+                    htfPoiSelect,
+                    displacementSelect,
+                    rejectionSelect,
+                    liqSweepSelect,
+                    smtSelect,
+                    candleCloseSelect
+                ];
+                allSelects.forEach(select => {
+                    if (select) select.value = '';
+                });
+
+                // Hide all conditional sections
+                if (biasDetailsSection) {
+                    biasDetailsSection.classList.add('hidden-section');
+                    biasDetailsSection.classList.remove('visible-section');
+                }
+                if (unclearedBiasMsg) unclearedBiasMsg.classList.add('hidden-section');
+                if (confirmationFieldsContainer) {
+                    confirmationFieldsContainer.classList.add('hidden-section');
+                    confirmationFieldsContainer.classList.remove('visible-section');
+                }
+                if (confirmationDisabledMsg) confirmationDisabledMsg.classList.add('hidden-section');
+                if (confirmationCard) {
+                    confirmationCard.classList.add('confirmation-card-hidden');
+                    confirmationCard.classList.remove('confirmation-card-visible');
+                }
+
+                if (htfBiasValue) htfBiasValue.textContent = '-';
+                if (premiumDiscountValue) premiumDiscountValue.textContent = '-';
+                if (biasIndicator) biasIndicator.className = 'bias-indicator';
+                if (noEntryWarning) noEntryWarning.style.display = 'none';
+
+                showResult('pending', 'Complete Checklist', 'Fill all fields above to validate trade setup');
+            }
+
+            // Event Listeners
+            if (htfBiasClearedSelect) {
+                htfBiasClearedSelect.addEventListener('change', toggleAllSections);
+            }
+
+            const watchSelects = [
+                htfBiasSelect, premiumDiscountSelect, htfPoiSelect,
+                displacementSelect, rejectionSelect, liqSweepSelect,
+                smtSelect, candleCloseSelect
             ];
-
-            allSelects.forEach(select => {
-                select.value = '';
+            watchSelects.forEach(select => {
+                if (select) select.addEventListener('change', validateTrade);
             });
 
-            // Reset displays
-            htfBiasValue.textContent = '-';
-            premiumDiscountValue.textContent = '-';
-            biasIndicator.className = 'bias-indicator';
-            noEntryWarning.style.display = 'none';
+            if (resetBtn) {
+                resetBtn.addEventListener('click', resetChecklist);
+            }
 
-            showResult('pending', 'Complete Checklist', 'Fill all fields above to validate trade setup');
-        }
+            // Initial state: everything hidden, prompt to select bias status
+            if (biasDetailsSection) biasDetailsSection.classList.add('hidden-section');
+            if (unclearedBiasMsg) unclearedBiasMsg.classList.add('hidden-section');
+            if (confirmationFieldsContainer) confirmationFieldsContainer.classList.add('hidden-section');
+            if (confirmationDisabledMsg) confirmationDisabledMsg.classList.add('hidden-section');
+            if (confirmationCard) confirmationCard.classList.add('confirmation-card-hidden');
 
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', init);
+            showResult('pending', 'Select Bias Status', 'Choose "CLEARED" or "UNCLEARED" to begin');
+        })();
     </script>
 </body>
 

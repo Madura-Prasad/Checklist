@@ -2,9 +2,11 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trading Checklist | Dynamic Grade System</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trading Checklist</title>
+    <link rel="shortcut icon" href="favicon.png">
+
     <style>
         :root {
             --bg: #0f172a;
@@ -14,14 +16,14 @@
             --muted: #94a3b8;
             --purple: #8b5cf6;
             --green: #10b981;
-            --red: #ef4444
+            --red: #ef4444;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Segoe UI, system-ui, -apple-system, sans-serif
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
         }
 
         body {
@@ -31,20 +33,20 @@
             padding: 20px;
             display: flex;
             justify-content: center;
-            align-items: center
+            align-items: center;
         }
 
         .container {
             width: 100%;
-            max-width: 900px;
-            margin: auto
+            max-width: 1100px;
+            margin: auto;
         }
 
         header {
             text-align: center;
             margin-bottom: 24px;
             padding-bottom: 18px;
-            border-bottom: 1px solid var(--line)
+            border-bottom: 1px solid var(--line);
         }
 
         h1 {
@@ -53,19 +55,20 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 6px
+            margin-bottom: 6px;
         }
 
         header p {
             color: var(--muted);
-            font-size: .95rem
+            font-size: 0.95rem;
         }
 
+        /* Two-column layout: Confirmation Factors left, Trade Grade right */
         .grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
             gap: 18px;
-            margin-bottom: 20px
+            align-items: start;
         }
 
         .card,
@@ -73,7 +76,8 @@
             background: var(--card);
             border: 1px solid var(--line);
             border-radius: 12px;
-            padding: 22px
+            padding: 22px;
+            min-width: 0;
         }
 
         .card h2,
@@ -81,23 +85,23 @@
             font-size: 1.2rem;
             margin-bottom: 18px;
             padding-bottom: 12px;
-            border-bottom: 1px solid var(--line)
+            border-bottom: 1px solid var(--line);
         }
 
         .field {
-            margin-bottom: 16px
+            margin-bottom: 16px;
         }
 
         .field:last-child {
-            margin-bottom: 0
+            margin-bottom: 0;
         }
 
         label {
             display: block;
-            font-size: .92rem;
+            font-size: 0.92rem;
             font-weight: 600;
             color: #cbd5e1;
-            margin-bottom: 7px
+            margin-bottom: 7px;
         }
 
         select {
@@ -107,25 +111,32 @@
             color: #f1f5f9;
             border: 1px solid #475569;
             border-radius: 7px;
-            font-size: .95rem;
-            cursor: pointer
+            font-size: 0.95rem;
+            cursor: pointer;
         }
 
         select:focus {
             outline: 2px solid var(--purple);
-            outline-offset: 1px
+            outline-offset: 1px;
+        }
+
+        #silverBulletTime {
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 0.88rem;
+            margin-bottom: 8px;
         }
 
         select.yes {
-            border-color: var(--green)
+            border-color: var(--green);
         }
 
         select.no {
-            border-color: var(--red)
+            border-color: var(--red);
         }
 
         .result-card {
-            text-align: center
+            text-align: center;
         }
 
         .result-heading {
@@ -133,7 +144,20 @@
             justify-content: space-between;
             align-items: center;
             gap: 12px;
-            text-align: left
+            text-align: left;
+        }
+
+        .result-heading h2 {
+            font-size: 1.2rem;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        .live-label {
+            font-size: 0.75rem;
+            color: var(--muted);
+            font-weight: 400;
         }
 
         button {
@@ -141,83 +165,85 @@
             color: white;
             border: 0;
             border-radius: 7px;
-            padding: 9px 14px;
-            font-size: .9rem;
-            cursor: pointer
+            padding: 9px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            white-space: nowrap;
         }
 
         button:hover {
-            background: #475569
+            background: #475569;
         }
 
         .result {
-            min-height: 180px;
+            min-height: 220px;
             border: 2px dashed #475569;
             border-radius: 10px;
-            padding: 24px;
+            padding: 22px 16px;
             display: flex;
             align-items: center;
-            justify-content: center
+            justify-content: center;
+            overflow-wrap: anywhere;
         }
 
         .result.good {
             border: 2px solid var(--green);
-            background: #10b98112
+            background: #10b98112;
         }
 
         .result.bad {
             border: 2px solid var(--red);
-            background: #ef444412
+            background: #ef444412;
         }
 
         .result.pending {
-            border-color: #475569
+            border-color: #475569;
         }
 
         .grade {
             font-size: 3.5rem;
             font-weight: 900;
             line-height: 1.1;
-            margin: 8px 0
+            margin: 8px 0;
         }
 
         .grade-a-plus {
-            color: #fbbf24
+            color: #fbbf24;
         }
 
         .grade-a {
-            color: #10b981
+            color: #10b981;
         }
 
         .grade-b {
-            color: #60a5fa
+            color: #60a5fa;
         }
 
         .grade-c {
-            color: #fb923c
+            color: #fb923c;
         }
 
         .grade-f {
-            color: #f87171
+            color: #f87171;
         }
 
         .subtitle {
             font-size: 1.1rem;
             font-weight: 700;
-            margin: 6px 0 10px
+            margin: 6px 0 10px;
         }
 
         .details {
-            color: #cbd5e1;
-            font-size: .93rem;
-            line-height: 1.5
+            color: #e1cfcb;
+            font-size: 0.93rem;
+            line-height: 1.6;
         }
 
         .score {
             font-size: 1.05rem;
             color: #f8fafc;
             margin: 12px 0;
-            font-weight: 700
+            font-weight: 700;
         }
 
         .progress {
@@ -226,22 +252,22 @@
             border-radius: 20px;
             overflow: hidden;
             margin: 15px auto 8px;
-            max-width: 360px
+            max-width: 360px;
         }
 
         .progress-fill {
             height: 100%;
             width: 0;
             background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            transition: width .25s
+            transition: width 0.25s;
         }
 
         .breakdown {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 9px;
-            margin-top: 15px
+            gap: 8px;
+            margin-top: 15px;
         }
 
         .pill {
@@ -249,33 +275,39 @@
             padding: 7px 10px;
             border-radius: 7px;
             color: #cbd5e1;
-            font-size: .82rem
+            font-size: 0.82rem;
         }
 
         .note {
             margin-top: 16px;
             color: var(--muted);
-            font-size: .83rem;
+            font-size: 0.83rem;
             line-height: 1.5;
-            text-align: center
+            text-align: center;
         }
 
-        @media(max-width:680px) {
+        /* Stack the sections on smaller screens */
+        @media (max-width: 680px) {
             body {
-                padding: 12px
+                padding: 12px;
+                align-items: flex-start;
             }
 
             .grid {
-                grid-template-columns: 1fr
+                grid-template-columns: 1fr;
             }
 
             .card,
             .result-card {
-                padding: 17px
+                padding: 17px;
             }
 
             .result-heading {
-                align-items: flex-start
+                align-items: center;
+            }
+
+            .grade {
+                font-size: 3rem;
             }
         }
     </style>
@@ -287,46 +319,50 @@
             <h1>Trading Checklist</h1>
             <p>ICT Silver Bullet Setup • Dynamic Trade Grade</p>
         </header>
+
         <div class="grid">
-            <section class="card">
-                <h2>Market Direction</h2>
-                <div class="field">
-                    <label for="bias">Bias</label>
-                    <select id="bias">
-                        <option value="">Select bias</option>
-                        <option value="BUY">BUY</option>
-                        <option value="SELL">SELL</option>
-                    </select>
-                </div>
-            </section>
+            <!-- LEFT SIDE: CONFIRMATION FACTORS -->
             <section class="card">
                 <h2>Confirmation Factors</h2>
+
                 <div class="field">
                     <label for="silverBullet">Silver Bullet</label>
+
+                    <div class="details" id="silverBulletTime">
+                        London Silver Bullet: calculating…<br />
+                        New York AM Silver Bullet: calculating…
+                    </div>
+
                     <select id="silverBullet" class="yn">
                         <option value="">Select</option>
                         <option value="YES">YES</option>
                         <option value="NO">NO</option>
                     </select>
                 </div>
+
                 <div class="field">
                     <label for="fvg15">15M FVG</label>
+
                     <select id="fvg15" class="yn">
                         <option value="">Select</option>
                         <option value="YES">YES</option>
                         <option value="NO">NO</option>
                     </select>
                 </div>
+
                 <div class="field">
                     <label for="entry1m">1M ST (VSR) / HRL / MSS</label>
+
                     <select id="entry1m" class="yn">
                         <option value="">Select</option>
                         <option value="YES">YES</option>
                         <option value="NO">NO</option>
                     </select>
                 </div>
+
                 <div class="field">
                     <label for="smt">SMT</label>
+
                     <select id="smt" class="yn">
                         <option value="">Select</option>
                         <option value="YES">YES</option>
@@ -334,82 +370,295 @@
                     </select>
                 </div>
             </section>
-        </div>
-        <section class="result-card">
-            <div class="result-heading">
-                <h2>📊 Trade Grade <span style="font-size:.75rem;color:#94a3b8;font-weight:400">(Live)</span></h2>
-                <button id="reset">↻ Reset All</button>
-            </div>
-            <div id="result" class="result pending">
-                <div>
-                    <div style="font-size:2.2rem">📋</div>
-                    <div class="subtitle">Start Selecting</div>
-                    <div class="details">Choose the bias and confirmation factors to calculate the grade.</div>
+
+            <!-- RIGHT SIDE: TRADE GRADE -->
+            <section class="result-card">
+                <div class="result-heading">
+                    <h2>
+                        📊 Trade Grade
+                        <span class="live-label">(Live)</span>
+                    </h2>
+
+                    <button id="reset" type="button">↻ Reset All</button>
                 </div>
-            </div>
-            <div class="note">Each YES confirmation adds 25 points. The bias must be selected to calculate a grade. A NO
-                earns 0 points for that factor.</div>
-        </section>
+
+                <div id="result" class="result pending">
+                    <div>
+                        <div style="font-size: 2.2rem">📋</div>
+                        <div class="subtitle">Start Selecting</div>
+                        <div class="details">
+                            Select the confirmation factors to calculate the trade grade.
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
     </main>
+
     <script>
         (() => {
-            const ids = ['bias', 'silverBullet', 'fvg15', 'entry1m', 'smt'];
-            const labels = { silverBullet: 'Silver Bullet', fvg15: '15M FVG', entry1m: '1M ST (VSR) / HRL / MSS', smt: 'SMT' };
-            const result = document.getElementById('result');
-            const selects = ids.map(id => document.getElementById(id));
+            const ids = ["silverBullet", "fvg15", "entry1m", "smt"];
+
+            const labels = {
+                silverBullet: "Silver Bullet",
+                fvg15: "15M FVG",
+                entry1m: "1M ST (VSR) / HRL / MSS",
+                smt: "SMT",
+            };
+
+            const silverBulletTime = document.getElementById("silverBulletTime");
+
+            /*
+             * Automatically detect the current UTC offsets for
+             * New York and London using the browser timezone database.
+             */
+            function timezoneOffsetMinutes(date, timeZone) {
+                const parts = new Intl.DateTimeFormat("en-US", {
+                    timeZone: timeZone,
+                    timeZoneName: "longOffset",
+                    hour: "2-digit",
+                }).formatToParts(date);
+
+                const name =
+                    parts.find((part) => part.type === "timeZoneName")?.value || "GMT";
+
+                if (name === "GMT" || name === "UTC") {
+                    return 0;
+                }
+
+                const match = name.match(/GMT([+-])(\d{1,2})(?::(\d{2}))?/);
+
+                if (!match) {
+                    return 0;
+                }
+
+                const hours = Number(match[2]);
+                const minutes = Number(match[3] || 0);
+                const totalMinutes = hours * 60 + minutes;
+
+                return match[1] === "+" ? totalMinutes : -totalMinutes;
+            }
+
+            /*
+             * Convert a local session time into Sri Lanka time.
+             * Sri Lanka is UTC+5:30 (330 minutes).
+             */
+            function toSriLankaTime(hour, minute, sourceUtcOffset) {
+                const total = hour * 60 - sourceUtcOffset + 330 + minute;
+
+                const normalized = ((total % 1440) + 1440) % 1440;
+
+                const h = Math.floor(normalized / 60);
+                const m = normalized % 60;
+
+                const suffix = h >= 12 ? "PM" : "AM";
+                const h12 = h % 12 || 12;
+
+                return `${h12}:${String(m).padStart(2, "0")} ${suffix}`;
+            }
+
+            function updateSilverBulletClock() {
+                const now = new Date();
+
+                const nyOffset = timezoneOffsetMinutes(now, "America/New_York");
+
+                const londonOffset = timezoneOffsetMinutes(now, "Europe/London");
+
+                /*
+                 * London Silver Bullet:
+                 * 8:00–9:00 AM London local time.
+                 *
+                 * New York AM Silver Bullet:
+                 * 10:00–11:00 AM New York local time.
+                 *
+                 * The displayed Sri Lanka times update automatically
+                 * when either country changes its DST status.
+                 */
+                const londonStart = toSriLankaTime(8, 0, londonOffset);
+
+                const londonEnd = toSriLankaTime(9, 0, londonOffset);
+
+                const nyStart = toSriLankaTime(10, 0, nyOffset);
+
+                const nyEnd = toSriLankaTime(11, 0, nyOffset);
+
+                silverBulletTime.innerHTML = `<span style="color: #CE8147;">
+        <b>London Silver Bullet:</b>
+        Sri Lanka ${londonStart}–${londonEnd}<br>
+        <b>New York AM Silver Bullet:</b>
+        Sri Lanka ${nyStart}–${nyEnd}
+    </span>`;
+            }
+
+            // Update session times automatically.
+            updateSilverBulletClock();
+
+            const result = document.getElementById("result");
+
+            const selects = ids.map((id) => document.getElementById(id));
+
             function updateStyles() {
-                document.querySelectorAll('.yn').forEach(s => {
-                    s.classList.remove('yes', 'no');
-                    if (s.value === 'YES') s.classList.add('yes');
-                    if (s.value === 'NO') s.classList.add('no');
+                document.querySelectorAll(".yn").forEach((select) => {
+                    select.classList.remove("yes", "no");
+
+                    if (select.value === "YES") {
+                        select.classList.add("yes");
+                    }
+
+                    if (select.value === "NO") {
+                        select.classList.add("no");
+                    }
                 });
             }
+
             function render() {
                 updateStyles();
-                const values = Object.fromEntries(ids.map(id => [id, document.getElementById(id).value]));
-                if (!values.bias) {
-                    result.className = 'result pending';
-                    result.innerHTML = '<div><div style="font-size:2.2rem">📋</div><div class="subtitle">Select Bias</div><div class="details">Choose BUY or SELL to start calculating the trade grade.</div></div>';
-                    return;
-                }
-                const factors = ids.slice(1);
-                const answered = factors.filter(id => values[id] !== '').length;
-                const yesCount = factors.filter(id => values[id] === 'YES').length;
+
+                const values = Object.fromEntries(
+                    ids.map((id) => [id, document.getElementById(id).value])
+                );
+
+                const factors = ids;
+
+                const answered = factors.filter((id) => values[id] !== "").length;
+
+                const yesCount = factors.filter((id) => values[id] === "YES").length;
+
                 const score = yesCount * 25;
-                let grade, cls, description, status;
+
+                let grade;
+                let cls;
+                let description;
+                let status;
+
                 if (answered < factors.length) {
-                    grade = score >= 100 ? 'A+' : score >= 75 ? 'A' : score >= 50 ? 'B' : score >= 25 ? 'C' : 'F';
-                    cls = score >= 100 ? 'grade-a-plus' : score >= 75 ? 'grade-a' : score >= 50 ? 'grade-b' : score >= 25 ? 'grade-c' : 'grade-f';
-                    description = 'Partial grade — finish selecting all confirmation factors.';
-                    status = 'pending';
+                    grade =
+                        score >= 100
+                            ? "A+"
+                            : score >= 75
+                                ? "A"
+                                : score >= 50
+                                    ? "B"
+                                    : score >= 25
+                                        ? "C"
+                                        : "F";
+
+                    cls =
+                        score >= 100
+                            ? "grade-a-plus"
+                            : score >= 75
+                                ? "grade-a"
+                                : score >= 50
+                                    ? "grade-b"
+                                    : score >= 25
+                                        ? "grade-c"
+                                        : "grade-f";
+
+                    description =
+                        "Partial grade — finish selecting all confirmation factors.";
+
+                    status = "pending";
                 } else {
-                    grade = score === 100 ? 'A+' : score === 75 ? 'A' : score === 50 ? 'B' : score === 25 ? 'C' : 'F';
-                    cls = score === 100 ? 'grade-a-plus' : score === 75 ? 'grade-a' : score === 50 ? 'grade-b' : score === 25 ? 'grade-c' : 'grade-f';
-                    description = score === 100 ? 'Perfect setup — all confirmation factors are present.' :
-                        score === 75 ? 'Strong setup — three confirmation factors are present.' :
-                            score === 50 ? 'Moderate setup — only two confirmation factors are present.' :
-                                score === 25 ? 'Weak setup — only one confirmation factor is present.' :
-                                    'No confirmation factors selected YES. Avoid taking a trade based on this checklist alone.';
-                    status = score >= 50 ? 'good' : 'bad';
+                    grade =
+                        score === 100
+                            ? "A+"
+                            : score === 75
+                                ? "A"
+                                : score === 50
+                                    ? "B"
+                                    : score === 25
+                                        ? "C"
+                                        : "F";
+
+                    cls =
+                        score === 100
+                            ? "grade-a-plus"
+                            : score === 75
+                                ? "grade-a"
+                                : score === 50
+                                    ? "grade-b"
+                                    : score === 25
+                                        ? "grade-c"
+                                        : "grade-f";
+
+                    description =
+                        score === 100
+                            ? "Perfect setup — all confirmation factors are present."
+                            : score === 75
+                                ? "Strong setup — three confirmation factors are present."
+                                : score === 50
+                                    ? "Moderate setup — only two confirmation factors are present."
+                                    : score === 25
+                                        ? "Weak setup — only one confirmation factor is present."
+                                        : "No confirmation factors selected YES. Avoid taking a trade based on this checklist alone.";
+
+                    status = score >= 50 ? "good" : "bad";
                 }
-                const pills = factors.map(id => `<span class="pill">${labels[id]}: <b>${values[id] || 'Pending'}</b></span>`).join('');
-                result.className = 'result ' + status;
-                result.innerHTML = `<div style="width:100%">
-     <div class="details">Selected bias: <b>${values.bias}</b></div>
-     <div class="grade ${cls}">${grade}</div>
-     <div class="subtitle">Trade Grade: ${grade}</div>
-     <div class="score">${score}/100 points · ${yesCount}/4 YES</div>
-     <div class="progress"><div class="progress-fill" style="width:${score}%"></div></div>
-     <div class="details">${description}</div>
-     <div class="breakdown">${pills}</div>
-     ${answered < factors.length ? `<div class="details" style="margin-top:12px;color:#fbbf24">Pending: ${factors.filter(id => values[id] === '').map(id => labels[id]).join(', ')}</div>` : ''}
-   </div>`;
+
+                const pills = factors
+                    .map(
+                        (id) =>
+                            `<span class="pill">${labels[id]}: ` +
+                            `<b>${values[id] || "Pending"}</b></span>`
+                    )
+                    .join("");
+
+                result.className = "result " + status;
+
+                result.innerHTML = `
+                    <div style="width:100%">
+                        <div class="grade ${cls}">${grade}</div>
+
+                        <div class="subtitle">
+                            Trade Grade: ${grade}
+                        </div>
+
+                        <div class="score">
+                            ${score}/100 points · ${yesCount}/4 YES
+                        </div>
+
+                        <div class="progress">
+                            <div class="progress-fill"
+                                 style="width:${score}%"></div>
+                        </div>
+
+                        <div class="details">
+                            ${description}
+                        </div>
+
+                        <div class="breakdown">
+                            ${pills}
+                        </div>
+
+                        ${answered < factors.length
+                        ? `<div class="details"
+                                      style="margin-top:12px;color:#fbbf24">
+                                      Pending: ${factors
+                            .filter((id) => values[id] === "")
+                            .map((id) => labels[id])
+                            .join(", ")}
+                                   </div>`
+                        : ""
+                    }
+                    </div>
+                `;
             }
-            selects.forEach(s => s.addEventListener('change', render));
-            document.getElementById('reset').addEventListener('click', () => {
-                selects.forEach(s => s.value = '');
+
+            // Recalculate the grade whenever a confirmation changes.
+            selects.forEach((select) => {
+                select.addEventListener("change", render);
+            });
+
+            // Reset all confirmation factors.
+            document.getElementById("reset").addEventListener("click", () => {
+                selects.forEach((select) => {
+                    select.value = "";
+                });
+
                 render();
             });
+
             render();
         })();
     </script>
